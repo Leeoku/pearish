@@ -1,9 +1,10 @@
-import requests, itertools
+import requests
+import pandas as pd
 import json
 from api import ocr_key
 
 
-def ocr_space_file(filename, overlay=False, api_key= ocr_key, language='eng', istable=True, scale = True):
+def ocr_space_file(filename, overlay=False, api_key=ocr_key, language='eng', istable=True, scale=True):
     """ OCR.space API request with local file.
         Python3.5 - not tested on 2.7
 
@@ -32,7 +33,7 @@ def ocr_space_file(filename, overlay=False, api_key= ocr_key, language='eng', is
     return r.content.decode()
 
 
-def ocr_space_url(url, overlay=False, api_key= ocr_key, language='eng', isTable=True):
+def ocr_space_url(url, overlay=False, api_key=ocr_key, language='eng', isTable=True):
     """ OCR.space API request with remote file.
         Python3.5 - not tested on 2.7
 
@@ -57,18 +58,25 @@ def ocr_space_url(url, overlay=False, api_key= ocr_key, language='eng', isTable=
     r = requests.post('https://api.ocr.space/parse/image',
                       data=payload,
                       )
-    #return r.content.decode()
+    # return r.content.decode()
     return r.json()
+
 
 data = ocr_space_url('https://ocr.space/Content/Images/receipt-ocr-original.jpg')
 
-#print(data.get('ParsedResults')[0]['TextOverlay']['Lines'][22].get('LineText'))
-words = []
+# print(data.get('ParsedResults')[0]['TextOverlay']['Lines'][22].get('LineText'))
+# words = []
 
-for i in data.get('ParsedResults')[0]['TextOverlay']['Lines']:
-    words.append(i.get('LineText'))
+# for i in data.get('ParsedResults')[0]['TextOverlay']['Lines']:
+#     words.append(i.get('LineText'))
+# print(words)
+df = pd.read_excel('food.xlsx', usecols = "B:C")
 
-#print(i.get('LineText'))
+food_data = df.query('FdGrp_Cd == 100')
+food_data = food_data['Long_Desc'].tolist()
+print(len(food_data))
+# print(food_data)
+# print(i.get('LineText'))
 # print((new_data["ParsedResults"][0].values()))
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
 # data['Words'] = [json.loads(s) for s in data['Words']]
@@ -78,3 +86,5 @@ for i in data.get('ParsedResults')[0]['TextOverlay']['Lines']:
 #     raw_data = json.load(json_file)
 # with open('rawdata.json', 'w') as f:
 #     f.write(json.dump(data,f))
+
+test
