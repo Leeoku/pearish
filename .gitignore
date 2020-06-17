@@ -137,5 +137,13 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+<<<<<<< HEAD
 #Extra json
 *.json
+=======
+#json files
+*.json
+
+#apikey
+api.py
+>>>>>>> 74ec643add52a331e7fe738d3bce68e32f15afd4
