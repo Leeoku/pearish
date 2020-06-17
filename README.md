@@ -1,3 +1,5 @@
+# StockedUp
+
 Project Overview
 Enter StockedUp: scan/enter items on a receipt to keep stock of what you have. Ideally, this would use camera to scan a receipt and go line by line to store the item into a database. Never have to remember whether you have something or not.
 
@@ -10,6 +12,7 @@ Read/process data
 Store to database
 Make a web page to display our data
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 ### `npm start`
 
@@ -80,3 +83,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 =======
                 
 >>>>>>> fixed read me
+=======
+                
+>>>>>>> fixed readme again
