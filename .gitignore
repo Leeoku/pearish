@@ -168,6 +168,7 @@ api.py# See https://help.github.com/articles/ignoring-files/ for more about igno
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
 >>>>>>> created react app and moved the python files to the api folder
 
 =======
@@ -195,3 +196,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 >>>>>>> created react app and moved the python files to the api folder
+=======
+>>>>>>> fixed read me
