@@ -61,17 +61,18 @@ def ocr_space_url(
     }
     r = requests.post("https://api.ocr.space/parse/image", data=payload,)
     # return r.content.decode()
-
+    
     # Change this return in source code to return JSON object, not string
     return r.json()
 
 #API response and obtaing "LineText"
+    return r.json()
+
 def parse():
     words = []
     data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
     for i in data.get("ParsedResults")[0]["TextOverlay"]["Lines"]:
         words.append(i.get("LineText"))
-<<<<<<< HEAD
 
 #Query the excel sheet and obtain the target food groups. Note not all used
 def FoodDatabase():

@@ -141,8 +141,5 @@ cython_debug/
 *.json
 
 #apikey
-<<<<<<< HEAD
 api.py
-=======
-api.py
->>>>>>> 74ec643add52a331e7fe738d3bce68e32f15afd4
+
