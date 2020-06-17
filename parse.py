@@ -59,6 +59,8 @@ def ocr_space_url(url, overlay=False, api_key=ocr_key, language='eng', isTable=T
                       data=payload,
                       )
     # return r.content.decode()
+
+    #Change this return in source code to return JSON object, not string
     return r.json()
 
 
@@ -72,8 +74,8 @@ data = ocr_space_url('https://ocr.space/Content/Images/receipt-ocr-original.jpg'
 # print(words)
 df = pd.read_excel('food.xlsx', usecols = "B:C")
 
-food_data = df.query('FdGrp_Cd == 100')
-food_data = food_data['Long_Desc'].tolist()
+dairy = df.query('FdGrp_Cd == 100')['Long_Desc'].tolist()
+
 print(len(food_data))
 # print(food_data)
 # print(i.get('LineText'))
@@ -86,5 +88,3 @@ print(len(food_data))
 #     raw_data = json.load(json_file)
 # with open('rawdata.json', 'w') as f:
 #     f.write(json.dump(data,f))
-
-test
