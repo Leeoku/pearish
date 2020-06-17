@@ -11,6 +11,7 @@ Be able to scan an image/receipt
 Read/process data
 Store to database
 <<<<<<< HEAD
+<<<<<<< HEAD
 Make a web page to display our data
 
 <<<<<<< HEAD
@@ -90,3 +91,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 =======
 Make a web page to display our data
 >>>>>>> fixed read me
+=======
+Make a web page to display our data
+
+>>>>>>> fixed readme again
