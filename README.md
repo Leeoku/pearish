@@ -1,3 +1,5 @@
+# StockedUp
+
 Project Overview
 Enter StockedUp: scan/enter items on a receipt to keep stock of what you have. Ideally, this would use camera to scan a receipt and go line by line to store the item into a database. Never have to remember whether you have something or not.
 
