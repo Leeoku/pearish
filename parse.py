@@ -71,6 +71,7 @@ def parse():
     data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
     for i in data.get("ParsedResults")[0]["TextOverlay"]["Lines"]:
         words.append(i.get("LineText"))
+<<<<<<< HEAD
 
 #Query the excel sheet and obtain the target food groups. Note not all used
 def FoodDatabase():
@@ -86,7 +87,8 @@ def FoodDatabase():
     return dairy, grain, meat, fruit_veg
 
 
-# print(food_data)
+# print(food_data)        
+# print(data.get('ParsedResults')[0]['TextOverlay']['Lines'][22].get('LineText'))
 # print(i.get('LineText'))
 # print((new_data["ParsedResults"][0].values()))
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
