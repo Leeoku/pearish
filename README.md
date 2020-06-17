@@ -11,5 +11,3 @@ Be able to scan an image/receipt
 Read/process data
 Store to database
 Make a web page to display our data
-
-                
