@@ -1,0 +1,1 @@
+export MSYS_NO_PATHCONV=1 && docker run -it -v $PWD:/pearish leeoku/pearish bash

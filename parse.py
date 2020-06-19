@@ -1,4 +1,5 @@
 import requests, json
+import pandas as pd
 from api import ocr_key
 
 
@@ -60,25 +61,34 @@ def ocr_space_url(
     }
     r = requests.post("https://api.ocr.space/parse/image", data=payload,)
     # return r.content.decode()
+    
+    # Change this return in source code to return JSON object, not string
     return r.json()
 
+#API response and obtaing "LineText"
 def parse():
-    words = []
     data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
-    for i in data.get("ParsedResults")[0]["TextOverlay"]["Lines"]:
-        words.append(i.get("LineText"))
-        
+    lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
+    words = [line.get("LineText") for line in lines]
+    return words
+
+#Query the excel sheet and obtain the target food groups. Note not food group codes used
+def FoodDatabase():
+    df = pd.read_excel("food.xlsx", usecols="B:C")
+    food_group_code = df['FdGrp_Cd']
+    dairy = df[food_group_code.isin(['100'])]['Long_Desc'].tolist()
+    grain = df[food_group_code.isin(['1800', '2000'])]['Long_Desc'].tolist()
+    meat = df[food_group_code.isin(['500', '700', '1000', '1300', '1500', '1700'])]['Long_Desc'].tolist()
+    fruit_veg = df[food_group_code.isin(['900', '1100','1600'])]['Long_Desc'].tolist()
+    return dairy, grain, meat, fruit_veg
+
+# print(food_data)        
 # print(data.get('ParsedResults')[0]['TextOverlay']['Lines'][22].get('LineText'))
 # print(i.get('LineText'))
 # print((new_data["ParsedResults"][0].values()))
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
 # data['Words'] = [json.loads(s) for s in data['Words']]
 
-
-# with open('rawdata.json') as json_file:
-#     raw_data = json.load(json_file)
-# with open('rawdata.json', 'w') as f:
-#     f.write(json.dump(data,f))
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     parse()
+    FoodDatabase()
