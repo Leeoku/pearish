@@ -2,12 +2,10 @@ import os
 import pymongo
 from flask import Flask
 from pprint import pprint
-
-ADMIN_NAME = "SGP"
-PASSWORD = "UxmwrTNrtbmrHzGp"
+import api
 
 app = Flask(__name__)
-uri = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(ADMIN_NAME, PASSWORD)
+uri = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(api.ADMIN_NAME, api.PASSWORD)
 
 # connect to db and get cluster
 cluster = pymongo.MongoClient(uri)
@@ -21,7 +19,7 @@ collection = db['users']
 # testing insert
 
 # collection.insert_one({"_id": 0, "user-name":"omar", "user_items": [
-#             {"name":"bread", "category": "carb",
-#             "purchase_date": "9/6/2020", "expiration_date":"22/6/2020"}
+#             {"name":"milk", "category": "dairy",
+#             "purchase_date": "10/6/2020", "expiration_date":"23/6/2020"}
 #       ]
 # })

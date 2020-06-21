@@ -138,19 +138,24 @@ dmypy.json
 cython_debug/
 
 #json files
-*.json
+
 
 #apikey
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 api.py
 =======
 api.py# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+=======
+api.py # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+src/server/api.py
+>>>>>>> used environment variables
 
 # dependencies
-/node_modules
 /.pnp
 .pnp.js
+node_modules/
 
 # testing
 /coverage
