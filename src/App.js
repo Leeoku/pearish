@@ -24,3 +24,10 @@ function App() {
 }
 
 export default App;
+
+ <input type="file" name="file" onChange={this.onChangeHandler}/>
+ onChangeHandler=event=>{
+
+    console.log(event.target.files[0])
+
+}
