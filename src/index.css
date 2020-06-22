@@ -20,7 +20,7 @@ code {
     padding: 120px 0px 85px 35%;
     text-align: center !important;
     margin: 0;
-    width: 100% !important;
+    width: 50% !important;
 }
 .files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
@@ -56,4 +56,11 @@ code {
     font-weight: 600;
     text-transform: capitalize;
     text-align: center;
+}
+
+body {
+  background-image: url('/backgroundPearish.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }

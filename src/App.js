@@ -31,3 +31,30 @@ export default App;
     console.log(event.target.files[0])
 
 }
+
+<button type="button" class="btn btn-success btn-block"
+onClick={this.onClickHandler}>Upload</button>
+
+onClickHandler = () => {
+    const data = new FormData()
+    data.append('file', this.state.selectedFile)
+}
+
+import axios from 'axios';
+
+axios.post("http://localhost:8000/upload", data, { // receive two parameter endpoint url ,form data
+    })
+    .then(res => { // then print response status
+      console.log(res.statusText)
+    })
+
+    onClickHandler = () => {
+     const data = new FormData()
+     data.append('file', this.state.selectedFile)
+     axios.post("http://localhost:8000/upload", data, {
+        // receive two    parameter endpoint url ,form data
+    })
+    .then(res => { // then print response status
+    console.log(res.statusText)
+ })
+}
