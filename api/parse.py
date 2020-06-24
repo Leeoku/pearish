@@ -4,6 +4,7 @@ from api import ocr_key
 from collections import OrderedDict
 
 
+
 def ocr_space_file(
     filename, overlay=False, api_key=ocr_key, language="eng", istable=True, scale=True
 ):
@@ -33,7 +34,7 @@ def ocr_space_file(
             "https://api.ocr.space/parse/image", files={filename: f}, data=payload,
         )
     return r.content.decode()
-
+  
 def ocr_space_url(
     url, overlay=False, api_key=ocr_key, language="eng", isTable=True, scale=True
 ):

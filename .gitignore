@@ -137,9 +137,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-#json files
-
-
 #apikey
 api.py
 src/server/api.py
