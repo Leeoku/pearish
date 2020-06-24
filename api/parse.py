@@ -102,7 +102,6 @@ def FoodDatabase():
     grain = df["grain"]
     meat = df["meat"]
     fruit_veg = df["fruit_veg"]
-    
     return dairy, grain, meat, fruit_veg
 
     # print(df['dairy'])
