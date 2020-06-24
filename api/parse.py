@@ -1,6 +1,7 @@
 import requests, json
-import pandas as pd
+import pandas as pd, numpy as np
 from api import ocr_key
+from collections import OrderedDict
 
 
 def ocr_space_file(
@@ -33,7 +34,7 @@ def ocr_space_file(
         )
     return r.content.decode()
 
-
+g
 def ocr_space_url(
     url, overlay=False, api_key=ocr_key, language="eng", isTable=True, scale=True
 ):
@@ -61,33 +62,66 @@ def ocr_space_url(
     }
     r = requests.post("https://api.ocr.space/parse/image", data=payload,)
     # return r.content.decode()
-    
+
     # Change this return in source code to return JSON object, not string
     return r.json()
 
-#API response and obtaing "LineText"
+
+# API response and obtaing "LineText"
 def parse():
     data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
     lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
-    words = [line.get("LineText") for line in lines]
+    words = [line.get("LineText").lower() for line in lines]
+    # print(words)
     return words
 
-#Query the excel sheet and obtain the target food groups. Note not food group codes used
+
+# Query the excel sheet and obtain the target food groups. Note not food group codes used
 def FoodDatabase():
     df = pd.read_excel("food.xlsx", usecols="B:C")
-    food_group_code = df['FdGrp_Cd']
-    dairy = df[food_group_code.isin(['100'])]['Long_Desc'].tolist()
-    grain = df[food_group_code.isin(['1800', '2000'])]['Long_Desc'].tolist()
-    meat = df[food_group_code.isin(['500', '700', '1000', '1300', '1500', '1700'])]['Long_Desc'].tolist()
-    fruit_veg = df[food_group_code.isin(['900', '1100','1600'])]['Long_Desc'].tolist()
+    food_group_map = {
+        100: "dairy",
+        1800: "grain",
+        2000: "grain",
+        500: "meat",
+        700: "meat",
+        1000: "meat",
+        1300: "meat",
+        1500: "meat",
+        1700: "meat",
+        900: "fruit_veg",
+        1100: "fruit_veg",
+        1600: "fruit_veg",
+    }
+    df["Food Group"] = df["FdGrp_Cd"].map(food_group_map)
+    df_split = df["Long_Desc"].str.split(",", n=1, expand=True)
+    df_split.columns = ["Food Name", "Food Name Detail"]
+    df = pd.concat([df, df_split], axis=1)
+    df = df.groupby("Food Group")["Food Name"].unique()
+    dairy = df["dairy"]
+    grain = df["grain"]
+    meat = df["meat"]
+    fruit_veg = df["fruit_veg"]
+    
     return dairy, grain, meat, fruit_veg
 
-# print(food_data)        
+    # print(df['dairy'])
+    # common_words = []
+    # description = df['Long_Desc'].tolist()
+    # for item in description:
+    #     item = item.split(',')
+    #     common_words.append(item[0].lower())
+    # m = np.asarray(common_words)
+    # set_word = set(common_words)
+
+
+#     #list version
+#     #parsed_database = list(OrderedDict.fromkeys(common_words))
+
 # print(data.get('ParsedResults')[0]['TextOverlay']['Lines'][22].get('LineText'))
 # print(i.get('LineText'))
 # print((new_data["ParsedResults"][0].values()))
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
-# data['Words'] = [json.loads(s) for s in data['Words']]
 
 if __name__ == "__main__":
     parse()

@@ -141,16 +141,9 @@ cython_debug/
 
 
 #apikey
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 api.py
-=======
-api.py# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-=======
-api.py # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 src/server/api.py
->>>>>>> used environment variables
+
 
 # dependencies
 /.pnp
@@ -173,11 +166,6 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
->>>>>>> created react app and moved the python files to the api folder
-
-=======
-api.py# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -200,6 +188,4 @@ api.py# See https://help.github.com/articles/ignoring-files/ for more about igno
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
->>>>>>> created react app and moved the python files to the api folder
-=======
->>>>>>> fixed read me
+
