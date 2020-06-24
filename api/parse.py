@@ -34,7 +34,6 @@ def ocr_space_file(
         )
     return r.content.decode()
 
-g
 def ocr_space_url(
     url, overlay=False, api_key=ocr_key, language="eng", isTable=True, scale=True
 ):
@@ -72,7 +71,6 @@ def parse():
     data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
     lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
     words = [line.get("LineText").lower() for line in lines]
-    # print(words)
     return words
 
 
