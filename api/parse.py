@@ -1,7 +1,8 @@
-import requests, json
+import requests, json, spacy
 import pandas as pd, numpy as np
 from api import ocr_key
 from collections import OrderedDict
+from spacy.matcher import PhraseMatcher
 
 
 
@@ -75,8 +76,8 @@ def parse():
     return words
 
 
-# Query the excel sheet and obtain the target food groups. Note not food group codes used
-def FoodDatabase():
+# Query the excel sheet and obtain the target food groups. Note not all food group codes used
+def food_database():
     df = pd.read_excel("food.xlsx", usecols="B:C")
     food_group_map = {
         100: "dairy",
@@ -104,6 +105,42 @@ def FoodDatabase():
     print(df)
     return dairy, grain, meat, fruit_veg
 
+def nlp():
+    nlp = spacy.load('en_core_web_sm')
+    matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER')
+    parsed_words = parse()
+    words_string = ' '.join(parsed_words)
+    food_groups = food_database()
+    fruit_veg_string = np.array2string(food_groups[3])
+    patterns = [nlp(text) for text in fruit_veg_string]
+    matcher.add("TerminologyList", None, *patterns)
+    text_doc = nlp(words_string)
+    matches = matcher(text_doc)
+    for receipt_match in matches:
+        
+        match_id, start, end = receipt_match
+        print(receipt_match)
+        print(nlp.vocab.strings[match_id], text_doc[start:end])
+
+    #dairy_string = np.array2string(food_groups[0])
+    #meat_string = np.array2string(food_groups[3])
+    #food_groups_strings = np.array2string(food_groups)
+    # patterns = [nlp(text) for text in meat_string]
+    # matcher.add("TerminologyList", None, *patterns)
+    # text_doc = nlp(words_string)
+    # matches = matcher(text_doc)
+    # match_id, start, end = matches [1]
+    # print(nlp.vocab.strings[match_id], text_doc[start:end])
+
+    # words_string = ''.join(parsed_words)
+    # doc = nlp(words_string)
+    # matcher = PhraseMatcher(nlp.vocab, attr='LOWER')
+
+def search():
+    food_groups = food_database()[0]
+    #print(food_groups)
+    #print(len(food_groups))
+
     # print(df['dairy'])
     # common_words = []
     # description = df['Long_Desc'].tolist()
@@ -113,7 +150,7 @@ def FoodDatabase():
     # m = np.asarray(common_words)
     # set_word = set(common_words)
 
-
+    #d = dict(zip(df.index, df.values))
 #     #list version
 #     #parsed_database = list(OrderedDict.fromkeys(common_words))
 
@@ -123,4 +160,11 @@ def FoodDatabase():
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
 
 if __name__ == "__main__":
+<<<<<<< Updated upstream
     parse()
+=======
+    food_database()
+    #search()
+    nlp()
+    #parse()
+>>>>>>> Stashed changes
