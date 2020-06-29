@@ -58,8 +58,8 @@ code {
     text-align: center;
 }
 
-body {
-  background-image: url('/backgroundPearish.png');
+background {
+  background-image: url('../public/backgroundPearish.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

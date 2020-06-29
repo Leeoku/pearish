@@ -1,14 +1,12 @@
-{
+module.exports = {
     "env": {
         "browser": true,
         "es2020": true
     },
     "extends": [
-        "plugin:react/recommended",
-        "airbnb",
+        "eslint:recommended",
+        "plugin:react/recommended"
     ],
-
-
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -18,8 +16,7 @@
     },
     "plugins": [
         "react"
-
     ],
     "rules": {
     }
-}
+};
