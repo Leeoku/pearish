@@ -1,79 +1,8 @@
-import requests, json, spacy
 import pandas as pd, numpy as np
-from api import ocr_key
 from collections import OrderedDict
+import spacy
 from spacy.matcher import PhraseMatcher
-
-
-
-def ocr_space_file(
-    filename, overlay=False, api_key=ocr_key, language="eng", istable=True, scale=True
-):
-    """ OCR.space API request with local file.
-        Python3.5 - not tested on 2.7
-
-    :param filename: Your file path & name.
-    :param overlay: Is OCR.space overlay required in your response.
-                    Defaults to False.
-    :param api_key: OCR.space API key.
-                    Defaults to 'helloworld'.
-    :param language: Language code to be used in OCR.
-                    List of available language codes can be found on https://ocr.space/OCRAPI
-                    Defaults to 'en'.
-    :return: Result in JSON format.
-    :param istable: parses output as a table
-    """
-
-    payload = {
-        "isOverlayRequired": overlay,
-        "apikey": api_key,
-        "language": language,
-        "istable": istable,
-    }
-    with open(filename, "rb") as f:
-        r = requests.post(
-            "https://api.ocr.space/parse/image", files={filename: f}, data=payload,
-        )
-    return r.content.decode()
-  
-def ocr_space_url(
-    url, overlay=False, api_key=ocr_key, language="eng", isTable=True, scale=True
-):
-    """ OCR.space API request with remote file.
-        Python3.5 - not tested on 2.7
-
-    :param url: Image url.
-    :param overlay: Is OCR.space overlay required in your response.
-                    Defaults to False.
-    :param api_key: OCR.space API key.
-                    Defaults to 'helloworld'.
-    :param language: Language code to be used in OCR.
-                    List of available language codes can be found on https://ocr.space/OCRAPI
-                    Defaults to 'en'.
-    :return: Result in JSON format.
-    :param isTable: parses output as a table
-    """
-
-    payload = {
-        "url": url,
-        "isOverlayRequired": overlay,
-        "apikey": api_key,
-        "language": language,
-        "isTable": isTable,
-    }
-    r = requests.post("https://api.ocr.space/parse/image", data=payload,)
-    # return r.content.decode()
-
-    # Change this return in source code to return JSON object, not string
-    return r.json()
-
-
-# API response and obtain "LineText"
-def parse():
-    data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
-    lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
-    words = [line.get("LineText").lower() for line in lines]
-    return words
+from ocr_setup import parse
 
 
 # Query the excel sheet and obtain the target food groups. Note not all food group codes used
@@ -111,16 +40,52 @@ def nlp():
     parsed_words = parse()
     words_string = ' '.join(parsed_words)
     food_groups = food_database()
-    fruit_veg_string = np.array2string(food_groups[3])
+    fruit_veg_string = food_groups[3]
+    #fruit_veg_string = np.array2string(food_groups[3])
     patterns = [nlp(text) for text in fruit_veg_string]
     matcher.add("TerminologyList", None, *patterns)
     text_doc = nlp(words_string)
     matches = matcher(text_doc)
-    for receipt_match in matches:
-        
-        match_id, start, end = receipt_match
-        print(receipt_match)
+    #for receipt_match in matches:
+        # match_id, start, end = receipt_match [0]
+        # print(nlp.vocab.strings[match_id], text_doc[start:end])
+    for i in range(len(matches)):    
+        match_id, start, end = matches [0]
         print(nlp.vocab.strings[match_id], text_doc[start:end])
+
+    #Avi's Code
+
+# ks = pd.read_excel('food.xlsx')
+
+# # ks.head(10)
+# mst_common = []
+# shrt = ks['Long_Desc'].tolist()
+
+# for item in shrt : 
+#     item = item.split(',')
+#     mst_common.append(item[0].lower())
+    
+
+# mst_common = set(mst_common)
+# print("Unique enteries present in the data :" ,len(mst_common))
+
+
+# lst = parse()
+# str_lst = " ".join(lst)
+
+# nlp = spacy.load('en')
+
+# matcher = PhraseMatcher(nlp.vocab, attr='LOWER')
+# patterns = [nlp(text) for text in mst_common]
+# matcher.add("TerminologyList", None, *patterns)
+# text_doc = nlp(str_lst)
+# matches = matcher(text_doc)
+
+
+# for i in range(len(matches)):
+#     match_id, start, end = matches[0]
+#     print(nlp.vocab.strings[match_id], text_doc[start:end])
+
 
     #dairy_string = np.array2string(food_groups[0])
     #meat_string = np.array2string(food_groups[3])
@@ -160,11 +125,7 @@ def search():
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
 
 if __name__ == "__main__":
-<<<<<<< Updated upstream
-    parse()
-=======
     food_database()
     #search()
     nlp()
     #parse()
->>>>>>> Stashed changes
