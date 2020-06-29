@@ -1,9 +1,6 @@
-import requests, json
-import pandas as pd, numpy as np
 from api import ocr_key
+import requests, json
 from collections import OrderedDict
-
-
 
 def ocr_space_file(
     filename, overlay=False, api_key=ocr_key, language="eng", istable=True, scale=True
@@ -73,54 +70,5 @@ def parse():
     lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
     words = [line.get("LineText").lower() for line in lines]
     return words
-
-
-# Query the excel sheet and obtain the target food groups. Note not food group codes used
-def FoodDatabase():
-    df = pd.read_excel("food.xlsx", usecols="B:C")
-    food_group_map = {
-        100: "dairy",
-        1800: "grain",
-        2000: "grain",
-        500: "meat",
-        700: "meat",
-        1000: "meat",
-        1300: "meat",
-        1500: "meat",
-        1700: "meat",
-        900: "fruit_veg",
-        1100: "fruit_veg",
-        1600: "fruit_veg",
-    }
-    df["Food Group"] = df["FdGrp_Cd"].map(food_group_map)
-    df_split = df["Long_Desc"].str.split(",", n=1, expand=True)
-    df_split.columns = ["Food Name", "Food Name Detail"]
-    df = pd.concat([df, df_split], axis=1)
-    df = df.groupby("Food Group")["Food Name"].unique()
-    dairy = df["dairy"]
-    grain = df["grain"]
-    meat = df["meat"]
-    fruit_veg = df["fruit_veg"]
-    print(df)
-    return dairy, grain, meat, fruit_veg
-
-    # print(df['dairy'])
-    # common_words = []
-    # description = df['Long_Desc'].tolist()
-    # for item in description:
-    #     item = item.split(',')
-    #     common_words.append(item[0].lower())
-    # m = np.asarray(common_words)
-    # set_word = set(common_words)
-
-
-#     #list version
-#     #parsed_database = list(OrderedDict.fromkeys(common_words))
-
-# print(data.get('ParsedResults')[0]['TextOverlay']['Lines'][22].get('LineText'))
-# print(i.get('LineText'))
-# print((new_data["ParsedResults"][0].values()))
-# filtered_data = (new_data["ParsedResults"][0].get('LineText'))
-
 if __name__ == "__main__":
     parse()
