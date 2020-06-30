@@ -31,8 +31,10 @@ def food_database():
     grain = df["grain"]
     meat = df["meat"]
     fruit_veg = df["fruit_veg"]
-    print(df)
-    return dairy, grain, meat, fruit_veg
+    food_groups = np.concatenate((dairy, meat, grain, fruit_veg))
+    print(type(food_groups))
+    #return dairy, grain, meat, fruit_veg
+    return food_groups
 
 def nlp():
     nlp = spacy.load('en_core_web_sm')
@@ -42,16 +44,19 @@ def nlp():
     food_groups = food_database()
     fruit_veg_string = food_groups[3]
     #fruit_veg_string = np.array2string(food_groups[3])
-    patterns = [nlp(text) for text in fruit_veg_string]
+    #patterns = [nlp(text) for text in fruit_veg_string]
+    patterns = [nlp(text) for text in food_groups]
     matcher.add("TerminologyList", None, *patterns)
     text_doc = nlp(words_string)
     matches = matcher(text_doc)
-    #for receipt_match in matches:
-        # match_id, start, end = receipt_match [0]
-        # print(nlp.vocab.strings[match_id], text_doc[start:end])
+    print(matches)
     for i in range(len(matches)):    
         match_id, start, end = matches [0]
         print(nlp.vocab.strings[match_id], text_doc[start:end])
+    #for receipt_match in matches:
+        # match_id, start, end = receipt_match [0]
+        # print(nlp.vocab.strings[match_id], text_doc[start:end])
+
 
     #Avi's Code
 
@@ -101,8 +106,8 @@ def nlp():
     # doc = nlp(words_string)
     # matcher = PhraseMatcher(nlp.vocab, attr='LOWER')
 
-def search():
-    food_groups = food_database()[0]
+# def search():
+#     food_groups = food_database()[0]
     #print(food_groups)
     #print(len(food_groups))
 
@@ -125,7 +130,6 @@ def search():
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
 
 if __name__ == "__main__":
-    food_database()
-    #search()
+    #food_database()
     nlp()
     #parse()
