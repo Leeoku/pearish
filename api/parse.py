@@ -35,8 +35,30 @@ def food_database():
     meat = df["meat"]
     fruit_veg = df["fruit_veg"]
     food_groups = np.concatenate((dairy, meat, grain, fruit_veg))
+    # print(type(food_groups))
+    #return dairy, grain, meat, fruit_veg
     return food_groups
 
+def nlp():
+    nlp = spacy.load('en_core_web_sm')
+    matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER')
+    parsed_words = parse()
+    words_string = ' '.join(parsed_words)
+    food_groups = food_database()
+    fruit_veg_string = food_groups[3]
+    #fruit_veg_string = np.array2string(food_groups[3])
+    #patterns = [nlp(text) for text in fruit_veg_string]
+    patterns = [nlp(text) for text in food_groups]
+    matcher.add("TerminologyList", None, *patterns)
+    text_doc = nlp(words_string)
+    matches = matcher(text_doc)
+    # print(matches)
+    for i in range(len(matches)):    
+        match_id, start, end = matches [0]
+        print(nlp.vocab.strings[match_id], text_doc[start:end])
+    #for receipt_match in matches:
+        # match_id, start, end = receipt_match [0]
+        # print(nlp.vocab.strings[match_id], text_doc[start:end])
 
 # a tuple of singular and plural words
 def filter_words(nlp,all_words):
