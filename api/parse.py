@@ -32,7 +32,7 @@ def food_database():
     meat = df["meat"]
     fruit_veg = df["fruit_veg"]
     food_groups = np.concatenate((dairy, meat, grain, fruit_veg))
-    print(type(food_groups))
+    # print(type(food_groups))
     #return dairy, grain, meat, fruit_veg
     return food_groups
 
@@ -49,7 +49,7 @@ def nlp():
     matcher.add("TerminologyList", None, *patterns)
     text_doc = nlp(words_string)
     matches = matcher(text_doc)
-    print(matches)
+    # print(matches)
     for i in range(len(matches)):    
         match_id, start, end = matches [0]
         print(nlp.vocab.strings[match_id], text_doc[start:end])
