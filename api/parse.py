@@ -38,7 +38,6 @@ def food_database():
     return food_groups
 
 
-# filter for parsed words, removes stopwords, punctuation and returns
 # a tuple of singular and plural words
 def filter_words(nlp,all_words):
     text_doc = nlp(all_words)
@@ -137,10 +136,3 @@ def get_results(text_doc_singular, text_doc_plural, matcher):
         results_with_dates.append(ind_item)
 
     return results_with_dates
-
-
-if __name__ == "__main__":
-    (single,plural,matcher) = pattern_match()
-    results = get_results(single,plural,matcher)
-    get_dates()
-    print(results)
