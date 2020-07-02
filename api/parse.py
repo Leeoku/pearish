@@ -1,82 +1,12 @@
-import requests, json
 import pandas as pd, numpy as np
-from api import ocr_key
 from collections import OrderedDict
+import spacy
+from spacy.matcher import PhraseMatcher
+from ocr_setup import parse
 
 
-
-def ocr_space_file(
-    filename, overlay=False, api_key=ocr_key, language="eng", istable=True, scale=True
-):
-    """ OCR.space API request with local file.
-        Python3.5 - not tested on 2.7
-
-    :param filename: Your file path & name.
-    :param overlay: Is OCR.space overlay required in your response.
-                    Defaults to False.
-    :param api_key: OCR.space API key.
-                    Defaults to 'helloworld'.
-    :param language: Language code to be used in OCR.
-                    List of available language codes can be found on https://ocr.space/OCRAPI
-                    Defaults to 'en'.
-    :return: Result in JSON format.
-    :param istable: parses output as a table
-    """
-
-    payload = {
-        "isOverlayRequired": overlay,
-        "apikey": api_key,
-        "language": language,
-        "istable": istable,
-    }
-    with open(filename, "rb") as f:
-        r = requests.post(
-            "https://api.ocr.space/parse/image", files={filename: f}, data=payload,
-        )
-    return r.content.decode()
-  
-def ocr_space_url(
-    url, overlay=False, api_key=ocr_key, language="eng", isTable=True, scale=True
-):
-    """ OCR.space API request with remote file.
-        Python3.5 - not tested on 2.7
-
-    :param url: Image url.
-    :param overlay: Is OCR.space overlay required in your response.
-                    Defaults to False.
-    :param api_key: OCR.space API key.
-                    Defaults to 'helloworld'.
-    :param language: Language code to be used in OCR.
-                    List of available language codes can be found on https://ocr.space/OCRAPI
-                    Defaults to 'en'.
-    :return: Result in JSON format.
-    :param isTable: parses output as a table
-    """
-
-    payload = {
-        "url": url,
-        "isOverlayRequired": overlay,
-        "apikey": api_key,
-        "language": language,
-        "isTable": isTable,
-    }
-    r = requests.post("https://api.ocr.space/parse/image", data=payload,)
-    # return r.content.decode()
-
-    # Change this return in source code to return JSON object, not string
-    return r.json()
-
-
-# API response and obtaing "LineText"
-def parse():
-    data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
-    lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
-    words = [line.get("LineText").lower() for line in lines]
-    return words
-
-
-# Query the excel sheet and obtain the target food groups. Note not food group codes used
-def FoodDatabase():
+# Query the excel sheet and obtain the target food groups. Note not all food group codes used
+def food_database():
     df = pd.read_excel("food.xlsx", usecols="B:C")
     food_group_map = {
         100: "dairy",
@@ -101,8 +31,92 @@ def FoodDatabase():
     grain = df["grain"]
     meat = df["meat"]
     fruit_veg = df["fruit_veg"]
-    print(df)
-    return dairy, grain, meat, fruit_veg
+    food_groups = np.concatenate((dairy, meat, grain, fruit_veg))
+    # print(type(food_groups))
+    #return dairy, grain, meat, fruit_veg
+    return food_groups
+
+
+# Use the nlp module PhraseMatcher to match input(parsed reciept words) with the items 
+# present in our output code
+def patter_match():
+
+    nlp = spacy.load('en_core_web_sm')
+    matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER')
+
+   # parse the reciept words and covert the list to a string 
+    parsed_words = parse()
+    words_string = ' '.join(parsed_words)
+    food_groups = food_database()
+    fruit_veg_string = food_groups[3]]
+
+    # Building the intial list of keywords we want to match the parsed items aganist
+    patterns = [nlp(text) for text in food_groups]
+    matcher.add("TerminologyList", None, *patterns)
+
+    text_doc = nlp(words_string)
+    matches = matcher(text_doc)
+    
+    # printing all th matches, TerminologyList is the name of the our patter matcher
+    for i in range(len(matches)):    
+        match_id, start, end = matches [0]
+        print(nlp.vocab.strings[match_id], text_doc[start:end])
+    
+
+
+
+    #Avi's Code --- previous code -- keeping for referece 
+
+# ks = pd.read_excel('food.xlsx')
+
+# # ks.head(10)
+# mst_common = []
+# shrt = ks['Long_Desc'].tolist()
+
+# for item in shrt : 
+#     item = item.split(',')
+#     mst_common.append(item[0].lower())
+    
+
+# mst_common = set(mst_common)
+# print("Unique enteries present in the data :" ,len(mst_common))
+
+
+# lst = parse()
+# str_lst = " ".join(lst)
+
+# nlp = spacy.load('en')
+
+# matcher = PhraseMatcher(nlp.vocab, attr='LOWER')
+# patterns = [nlp(text) for text in mst_common]
+# matcher.add("TerminologyList", None, *patterns)
+# text_doc = nlp(str_lst)
+# matches = matcher(text_doc)
+
+
+# for i in range(len(matches)):
+#     match_id, start, end = matches[0]
+#     print(nlp.vocab.strings[match_id], text_doc[start:end])
+
+
+    #dairy_string = np.array2string(food_groups[0])
+    #meat_string = np.array2string(food_groups[3])
+    #food_groups_strings = np.array2string(food_groups)
+    # patterns = [nlp(text) for text in meat_string]
+    # matcher.add("TerminologyList", None, *patterns)
+    # text_doc = nlp(words_string)
+    # matches = matcher(text_doc)
+    # match_id, start, end = matches [1]
+    # print(nlp.vocab.strings[match_id], text_doc[start:end])
+
+    # words_string = ''.join(parsed_words)
+    # doc = nlp(words_string)
+    # matcher = PhraseMatcher(nlp.vocab, attr='LOWER')
+
+# def search():
+#     food_groups = food_database()[0]
+    #print(food_groups)
+    #print(len(food_groups))
 
     # print(df['dairy'])
     # common_words = []
@@ -113,7 +127,7 @@ def FoodDatabase():
     # m = np.asarray(common_words)
     # set_word = set(common_words)
 
-
+    #d = dict(zip(df.index, df.values))
 #     #list version
 #     #parsed_database = list(OrderedDict.fromkeys(common_words))
 
@@ -123,5 +137,6 @@ def FoodDatabase():
 # filtered_data = (new_data["ParsedResults"][0].get('LineText'))
 
 if __name__ == "__main__":
-    parse()
-    FoodDatabase()
+    #food_database()
+    nlp()
+    #parse()
