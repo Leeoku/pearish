@@ -36,29 +36,36 @@ def food_database():
     #return dairy, grain, meat, fruit_veg
     return food_groups
 
-def nlp():
+
+# Use the nlp module PhraseMatcher to match input(parsed reciept words) with the items 
+# present in our output code
+def patter_match():
+
     nlp = spacy.load('en_core_web_sm')
     matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER')
+
+   # parse the reciept words and covert the list to a string 
     parsed_words = parse()
     words_string = ' '.join(parsed_words)
     food_groups = food_database()
-    fruit_veg_string = food_groups[3]
-    #fruit_veg_string = np.array2string(food_groups[3])
-    #patterns = [nlp(text) for text in fruit_veg_string]
+    fruit_veg_string = food_groups[3]]
+
+    # Building the intial list of keywords we want to match the parsed items aganist
     patterns = [nlp(text) for text in food_groups]
     matcher.add("TerminologyList", None, *patterns)
+
     text_doc = nlp(words_string)
     matches = matcher(text_doc)
-    # print(matches)
+    
+    # printing all th matches, TerminologyList is the name of the our patter matcher
     for i in range(len(matches)):    
         match_id, start, end = matches [0]
         print(nlp.vocab.strings[match_id], text_doc[start:end])
-    #for receipt_match in matches:
-        # match_id, start, end = receipt_match [0]
-        # print(nlp.vocab.strings[match_id], text_doc[start:end])
+    
 
 
-    #Avi's Code
+
+    #Avi's Code --- previous code -- keeping for referece 
 
 # ks = pd.read_excel('food.xlsx')
 
