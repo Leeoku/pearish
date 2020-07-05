@@ -35,14 +35,6 @@ def food_database():
     food_groups = np.concatenate((dairy, meat, grain, fruit_veg))
     return food_groups
 
-# determines if a string is a float or an integer 
-def float_or_int(string):
-    if string.isdigit():
-        return True
-    elif string.replace('.','',1).isdigit() and string.count('.') < 2:
-        return True
-    else:
-        return False 
 
 # filter for parsed words, removes stopwords, punctuation and returns
 # a tuple of singular and plural words
@@ -52,7 +44,7 @@ def filter_words(nlp,all_words):
     # removing stop words or punctuation 
     text_doc2 = [] 
     for token in text_doc : 
-        if(not token.is_stop and len(token.text) > 2 and not float_or_int(token.text)): 
+        if(not token.is_stop and len(token.text) > 2 and not token.text.isnumeric()): 
             # print("token length == ",len(token), " token text len ==", len(token.text), " token text -", token.text)
             text_doc2.append(token.lemma_)
   
@@ -72,8 +64,7 @@ def filter_words(nlp,all_words):
 # count of each item in dict() format
 def pattern_match():
     nlp = spacy.load('en')
-    matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER')
-    
+    matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER') 
     parsed_words = parse()
     
     '''
@@ -96,8 +87,7 @@ def pattern_match():
     
     words_string = ' '.join(parsed_words)
     (single,plural) = filter_words(nlp,words_string)
-    
-    
+
     text_doc_singular = nlp(single)
     text_doc_plural   = nlp(plural)
     food_groups = food_database()
@@ -105,10 +95,13 @@ def pattern_match():
     # Building the intial list of keywords we want to match the parsed items aganist
     patterns = [nlp(text) for text in food_groups]
     matcher.add("Food Matcher", None, *patterns)    
-    matches = matcher(text_doc_singular)
-    
 
+    return(text_doc_singular, text_doc_plural, matcher )
+
+def get_results(text_doc_singular, text_doc_plural, matcher):
+    matches = matcher(text_doc_singular)
     results = []
+
     # Matching singulars
     for i in range(len(matches)):    
         match_id, start, end = matches [0]
@@ -122,12 +115,10 @@ def pattern_match():
         # results.append((nlp.vocab.strings[match_id],text_doc_plural[start:end]))
         results.append(text_doc_plural[start:end])
 
-    results = dict((i, results.count(i)) for i in results)
+    results = {i: results.count(i) for i in results}
     return results
 
 if __name__ == "__main__":
-    #food_database()
-    results = pattern_match()
-
+    (single,plural,matcher) = pattern_match()
+    results = get_results(single,plural,matcher)
     print(results)
-    #parse()
