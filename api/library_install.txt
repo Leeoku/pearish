@@ -1,0 +1,6 @@
+# To remove -- once docker is set up correctly
+
+pip install -U textblob
+python3 -m textblob.download_corpora
+pip install spacy
+python3 -m spacy download en
