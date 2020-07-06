@@ -70,5 +70,7 @@ def parse():
     lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
     words = [line.get("LineText").lower() for line in lines]
     return words
+
+    
 if __name__ == "__main__":
     parse()
