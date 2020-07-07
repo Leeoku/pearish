@@ -8,6 +8,9 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "eslint": "^6.6.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -21,7 +24,14 @@
     "semantic-ui-react": "^0.88.2",
     "validator": "^13.1.1"
   },
+  "lint-staged": {
+   "src/**/*.{js,jsx,json,css}": [
+     "prettier --single-quote --write",
+     "git add"
+   ]
+  },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -50,5 +60,5 @@
     "eslint-plugin-react": "^7.20.1",
     "eslint-plugin-react-hooks": "^4.0.4"
   },
-  "proxy": "http://localhost:6969",
+  "proxy": "http://localhost:6969../api/src/index.js"
 }
