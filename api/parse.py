@@ -63,7 +63,7 @@ def filter_words(nlp,all_words):
 # returns the items present in the reciept as well as the 
 # count of each item in dict() format
 def pattern_match():
-    nlp = spacy.load('en')
+    nlp = spacy.load('en_core_web_sm')
     matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER') 
     parsed_words = parse()
     
