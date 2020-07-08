@@ -60,9 +60,5 @@
     "eslint-plugin-react": "^7.20.1",
     "eslint-plugin-react-hooks": "^4.0.4"
   },
-<<<<<<< HEAD
-  "proxy": "http://localhost:6969../api/src/index.js"
-=======
   "proxy": "http://localhost:6969"
->>>>>>> 61b4a57e549d253d7f1e251a132000158e2ef910
 }
