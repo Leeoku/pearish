@@ -6,15 +6,18 @@ import AboutPage from './components/pages/AboutPage';
 import'semantic-ui-css/semantic.min.css';
 const App = () => (
     <div class = "ui secondary menu">
-      <a class = "active item"
-         href = "/" >Home</a>
-      <a class ="item"
-         href = "/login">Login</a>
-      <a class = "item"
-         href = "/about">About</a>
+      <NavLink
+            class = "active item"
+         href = "/" >Home</NavLink>
+      <NavLink
+            class ="item"
+         href = "/login">Login</NavLink>
+      <NavLink
+            class = "item"
+         href = "/about">About</NavLink>
         <Route path="/" exact component={HomePage} />
         <Route path="/login" exact component={LoginPage} />
-        <Route path="/about" exact component={AboutPage} /> 
+        <Route path="/about" exact component={AboutPage} />
     </div>
 );
 
