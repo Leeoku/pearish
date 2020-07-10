@@ -29,23 +29,8 @@ collection = db['users']
 # })
 
 test = collection.find_one({"_id":0})
-print(test)
-d = bson.encode(test)
-print(d)
-d_text = bson.decode(d)
-print(d_text)
-# d = bdumps(test)
-# #raw_bson = bsonjs.loads(test)
-# print(test)
-# print('Test is of type ' + str(type(test)))
-# print('Json.dumps(test) is of type ' + str(type(json.dumps(test))))
-# print(chr(d))
-# print(type(d))
-
-
 
 @app.route("/")
 def my_index():
-    #return flask.render_template("index.html", token=flask.json.loads(flask.json.dumps(test)))
-    return flask.render_template("index.html", token= d_text)
+    return flask.render_template("index.html", token= test)
 app.run(debug=True)
