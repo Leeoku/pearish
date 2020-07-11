@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const AboutPage = () => (
   <div className="about-page">
@@ -6,6 +6,4 @@ const AboutPage = () => (
   </div>
 );
 
-
-
-export default AboutPage
+export default AboutPage;
