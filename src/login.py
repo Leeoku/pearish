@@ -1,17 +1,20 @@
-from flask import Flask, jsonify, request, json
-from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
-from datetime import datetime
-from flask_bcrypt import Bcrypt
-from flask_cors import CORS
-from flask_jwt_extended import JWTManager
-from flask_jwt_extended import create_access_token
+import Flask
+import jsonify
+import request
+import json from flask
+import PyMongo from flask_pymongo
+import ObjectId from bson.objectid
+import datetime from datetime
+import Bcrypt from flask_bcrypt
+import CORS from flask_cors
+import JWTManager from flask_jwt_extended
+import create_access_token from flask_jwt_extended
 
 app = Flask(__name__)
 
-app.config['MONGO_DBNAME'] = 'reactloginreg'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/reactloginreg'
-app.config['JWT_SECRET_KEY'] = 'secret'
+#app.config['MONGO_DBNAME'] = 'reactloginreg'
+#app.config['MONGO_URI'] = 'mongodb://localhost:27017/reactloginreg'
+#app.config['JWT_SECRET_KEY'] = 'secret'
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
