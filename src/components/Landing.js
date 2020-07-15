@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import UploadForm from "./UploadForm";
 
 class Landing extends Component {
   render() {
@@ -8,6 +9,7 @@ class Landing extends Component {
           <div className="col-sm-8 mx-auto">
             <h1 className="text-center">WELCOME TO YOUR DIGITAL PANTRY</h1>
           </div>
+          <UploadForm></UploadForm>
         </div>
       </div>
     );
