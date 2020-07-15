@@ -12,10 +12,9 @@ import create_access_token from flask_jwt_extended
 
 app = Flask(__name__)
 
-#app.config['MONGO_DBNAME'] = 'reactloginreg'
 app.config['MONGO_URI'] = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(
     api.ADMIN_NAME, api.PASSWORD)
-app.config['JWT_SECRET_KEY'] = 'secret'
+
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
