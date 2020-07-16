@@ -140,7 +140,8 @@ cython_debug/
 #apikey
 api.py
 api/Simplify.ipynb
-
+api/cleaned.txt
+api/foo.txt
 
 # dependencies
 /.pnp
