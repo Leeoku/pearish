@@ -1,0 +1,74 @@
+Siteid	Area		Description			Lat		Long		Elev (ft)	Description										
+150000	Missoula	Lookout Pass			47.45357298	-115.6950595	4540		Lookout Pass I-90 MP 0.2										
+150002	Missoula	Bearmouth			46.71854246	-113.2953417	3901		Bearmouth I-90 MP 145.8										
+150003	Missoula	Trout Creek			47.824111	-115.572	2384		Trout Creek Hwy 200 MP 30.9										
+150004	Missoula	Greenough Hill			46.90280055	-113.422989	4070		Greenough Hill MT200 MP 22.1										
+150005	Missoula	Ninemile			47.02299397	-114.3886779	3170		Ninemile I-90 MP 81.8										
+263000	Billings	Yellowstone River Bridge	45.79376126	-108.4679891	3194		Yellowstone River Bridge I-90 MP 452.3										
+263001	Billings	Reedpoint			45.71005632	-109.5783019	3890		Reed Point I-90 MP 390.8										
+263002	Billings	Roscoe Hill			45.33857742	-109.4936168	5337		Roscoe Hill MT78 MP 19.0										
+263003	Billings	Arrow Creek Hill		45.77999929	-108.163406	3956		Arrow Creek Hill I-90 MP 468.6										
+263004	Billings	Aberdeen Hill			45.0283938	-107.3172887	4101		Aberdeen Hill I-90 MP 552.3										
+263005	Billings	Hysham Hills			46.16491617	-107.3092735	3549		Hysham Hills I-94 MP 60.0										
+267001	Butte		Monida Pass			44.55766953	-112.3136955	6824		Monida Pass I-15 MP 0.3										
+267002	Butte		MacDonald Pass			46.56147997	-112.3093051	6320		MacDonald Pass US12 MP 27.9										
+267003	Butte		Boulder Hill			46.32329873	-112.0689089	5600		Boulder Hill I-15 MP 170.9										
+267004	Butte		Garrison			46.52361378	-112.8084327	4340		Garrison I-90 MP 174.4										
+267005	Butte		Big Hole Pass			45.31544733	-113.3097377	7400		Big Hole Pass S-278 MP 32										
+267006	Butte		Elk Park			46.13589	-112.39799	6293		Elk Park I-15 Frontage MP 141.1										
+267007	Butte		Avon - North			46.69679	-112.65944	5085		Avon North - Hwy 141 MP 8.1										
+267008	Butte		Homestake Pass			45.55088	-112.24447	6385		Homestake Pass I-90 MP 233										
+267009	Butte		Georgetown Lake			46.190806	-113.265306	6339		Georgetown Lake Hwy 1 MP 25.4										
+268000	Lewistown	East of Denton			47.30022671	-109.8511746	3557		East of Denton MT81 MP 17										
+268001	Lewistown	Judith Gap			46.68765404	-109.7502125	4677		Judith Gap US-191 MP 18.6										
+268003	Lewistown	Bull Mountain Divide		46.24743675	-108.4612106	3898		Bull Mountain US87 MP 33.3										
+268004	Lewistown	Hays Site			47.91928257	-108.7261054	3697		Hays Site MT66 MP 10.5										
+268005	Lewistown	Lewistown Divide		47.06180057	-109.1844339	4622		Lewistown Divide MT200 MP 90.3										
+268006	Lewistown	Geyser				47.242694	-110.469556	4138		Geyser US87 MP 23										
+269000	Wolf Point	Malta South			47.96112732	-108.3055539	3122		Malta South US191 MP 122.5										
+269001	Wolf Point	McDonald's			48.42732302	-105.4423371	2401		McDonalds MT13 MP 25.5										
+269002	Wolf Point	Navajo				48.8184514	-104.9971444	2570		Navajo MT-5 MP 16.7										
+269003	Wolf Point	Comertown Turn-off		48.80999661	-104.2528984	2099		Comertown Turn-Off MT5 MP 13.4										
+269004	Wolf Point	US2 @Stateline			48.13764491	-104.0468714	2099		US 2 @ Stateline										
+269005	Wolf Point	Saco				48.451389	-107.301667	2177		Saco US2 MP 502.5										
+301000	Great Falls	Monarch Canyon			47.14289771	-110.8230922	5218		Monarch Canyon US89 MP 53.5										
+301001	Great Falls	Pendroy				48.07321688	-112.3341821	4199		Pendroy US89 MP 62.6										
+301002	Great Falls	Bowmans				47.29219699	-112.151831	4301		Bowmans MT200 MP110.4										
+301003	Great Falls	Helmville			46.96826155	-112.9748725	4199		Helmville MT200 MP 53.3										
+301004	Great Falls	Gary Cooper Bridge		47.13947959	-111.8590804	3500		Gary Cooper Bridge I-15 MP 242										
+301005	Great Falls	Sieben				46.88748267	-112.1111196	4040		Sieben I-15 MP 216										
+301006	Great Falls	Prickley Pear			46.91392183	-112.1167054	3943		Prickley Pear I-15 MP 218.6 Elev 3943										
+301007	Great Falls	Roger's Pass			47.0877		-112.372317	5406		Rogers Pass MT200 MP 90.8										
+302000	Glendive	Lufborough Hill			47.07813042	-107.5720063	2998		Lufborough Hill MT200 MP 175.3										
+302001	Glendive	Cow Creek			47.68836679	-105.4918552	2500		Cow Creek MT13 MP 19.9 Elev 2500										
+302002	Glendive	Lindsay Divide			47.28293547	-105.2938704	3198		Lindsay Divide MT200 MP 296.5 Elev 3198										
+302003	Glendive	Beaver Hill			47.02197621	-104.3300043	2551		Beaver Hill I-94 MP 234.8										
+302004	Glendive	Sioux Pass			47.91972733	-104.3261866	2480		Sioux Pass MT16 MP 21 Elev 2480										
+563000	Miles City	Lame Deer Divide		45.62885913	-106.5112452	4327		Lame Deer Divide US212 MP 50.1										
+563001	Miles City	Sweeney Creek			46.26670992	-106.3078849	2598		Sweeney Creek I-94 MP 112.6										
+563002	Miles City	Rock Springs			46.83370217	-106.2713308	2998		Rock Springs MT59 MP36.5										
+563003	Miles City	Baker				46.08358891	-104.4355227	3500		Baker MT7 MP 14.2										
+563004	Miles City	Alzada				45.00274858	-104.3736231	4327		Alzada US212 MP 139.4										
+563005	Miles City	Government Hill			46.41		-105.67		3165		Government Hill Hwy 12 MP 14.2										
+563006	Miles City	Ingomar				46.583528	-107.376	3020		Ingomar US12 MP 230										
+563007	Miles City	Ekalaka				45.312		-104.46657	3687		Ekalaka S323 MP 46.8										
+563008	Miles City	Biddle				45.012976	-105.376985	3418		Biddle Hwy 59 MP 0.9										
+564000	Bozeman		Raynolds Pass			44.72814115	-111.4701211	6778		Raynolds Pass MT87 MP 1.2										
+564001	Bozeman		Karst				45.34534328	-111.1726064	5698		Karst US191 MP 55.3										
+564002	Bozeman		Bozeman Pass			45.66681641	-110.8039548	5748		Bozeman Pass I-90 MP 321.8										
+564003	Bozeman		East Livingston			45.6855379	-110.5044463	4555		East Livingston I-90 MP 337.7										
+564004	Bozeman		Norris Hill			45.49959623	-111.6961793	5400		Norris Hill US287 MP 60										
+564005	Bozeman		Deep Creek			46.35146	-111.06681	5870		Deep Creek US-12 MP 23.5										
+564006	Bozeman		Livingston Wind			45.39201	-111.02662	5401		Livingston Wind - I-90 MP 331.7 Elev 5401										
+628000	Kalispell	Essex				48.28175578	-113.6065696	3875		Essex US2 MP 179.9										
+628001	Kalispell	Dickey Lake			48.69452866	-114.7843654	3487		Dickey Lake US93 MP160.2										
+628002	Kalispell	Flathead River			48.21907646	-114.2379324	2851		Flathead River MT 35 MP49										
+628003	Kalispell	Yaak Hill			48.58339724	-115.9840606	2201		Yaak Hill US2 MP 4.8 Elev 2201										
+628004	Kalispell	Crystal Creek			48.11760012	-115.4200364	3030		Crystal Creek US2 MP 53.1										
+628005	Kalispell	Swan Lake South			47.59102693	-113.7557434	3567		Swan Lake South MT83 MP 47										
+629000	Havre		Inverness			48.55321455	-110.6482198	3300		Inverness US2 MP 337.6										
+629001	Havre		Sweetgrass			48.96016563	-111.9407131	3690		Sweet Grass I-15 MP 397.3										
+629002	Havre		Two Medicine Bridge		48.45265138	-113.1950716	4920		Two Medicine Bridge US2 MP 210.7										
+629003	Havre		Loma				47.95102703	-110.5047682	2557		Loma US87 MP 53.1										
+629004	Havre		Sunburst			48.88015	-111.89871	3401		Sunburst I-15 MP 389										
+629005	Havre		Browning			48.5345		-112.9808	4419		Browning US2/US89 MP 223.1	

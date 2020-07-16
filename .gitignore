@@ -139,7 +139,7 @@ cython_debug/
 
 #apikey
 api.py
-src/server/api.py
+api/Simplify.ipynb
 
 
 # dependencies
