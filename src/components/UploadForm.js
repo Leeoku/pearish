@@ -1,9 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 const UploadForm=()=>{
-    const[selectedFile, setSelectedFile] = ("");
-    const onSubmitHandler = (e) => { 
-        e.preventDefault()
-    }
+    const[selectedFile, setSelectedFile] = useState("");
     const onChangeHandler = (e) =>{
         setSelectedFile(e.target.files[0])
         console.log(e.target.files[0])
@@ -11,11 +8,12 @@ const UploadForm=()=>{
 return(
     <div className= "container">
         <form className = "form"
-        onSubmit = {onSubmitHandler}>
+        onSubmit={(e) => e.preventDefault()}>
             <div>
             <input 
             type = "file" 
             name="file" 
+            value = {selectedFile}
             onChange={onChangeHandler}/>
             </div>
         </form>
