@@ -1,14 +1,15 @@
-import Flask
-import jsonify
-import request
-import json from flask
-import PyMongo from flask_pymongo
-import ObjectId from bson.objectid
-import datetime from datetime
-import Bcrypt from flask_bcrypt
-import CORS from flask_cors
-import JWTManager from flask_jwt_extended
-import create_access_token from flask_jwt_extended
+from flask import Flask
+from flask import jsonify
+from flask import request
+from flask import json
+import api
+from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
+from datetime import datetime
+from flask_bcrypt import Bcrypt
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import create_access_token
 
 app = Flask(__name__)
 
