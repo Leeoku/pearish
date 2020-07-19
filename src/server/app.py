@@ -3,7 +3,8 @@ import pymongo
 import flask
 from pprint import pprint
 import api
-import json, collections
+import json
+import collections
 import bson
 #import bsonjs
 from bson import json_util
@@ -12,13 +13,13 @@ from flask.json import JSONEncoder, jsonify
 from parse import *
 
 app = flask.Flask(__name__)
-restful_api = Api(app)
-url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(api.ADMIN_NAME, api.PASSWORD)
+url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(
+    api.ADMIN_NAME, api.PASSWORD)
 
 # connect to db and get cluster
 cluster = pymongo.MongoClient(url)
 
-# get db from cluster 
+# get db from cluster
 db = cluster['StackedUp']
 
 # get collection from db
@@ -32,7 +33,8 @@ collection = db['users']
 #       ]
 # })
 
-test = collection.find_one({"_id":0})
+test = collection.find_one({"_id": 0})
+
 
 @app.route("/")
 def my_index():
