@@ -1,4 +1,4 @@
-import os
+import os, sys
 import pymongo
 import flask
 from pprint import pprint
@@ -9,8 +9,10 @@ import bson
 from bson import json_util
 from flask_restful import Api, Resource
 from flask.json import JSONEncoder, jsonify
+from parse import *
 
 app = flask.Flask(__name__)
+restful_api = Api(app)
 url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(api.ADMIN_NAME, api.PASSWORD)
 
 # connect to db and get cluster
@@ -52,10 +54,11 @@ class UserCollectionCreate(Resource):
         payload = {
             "user_name":user_name,
             "user_items": [{
-                "name": "",
                 "cateogry": "",
-                "purchase_date": "",
-                "expiration_date": ""
+                "count": "",
+                "expiration_date": "",
+                "name": "",
+                "purchase_date": ""
             }]
         }
         collection.insert(payload)
@@ -75,15 +78,28 @@ class UserCollectionName(Resource):
         return f"{user_name} updated"
 
 #Response to get and delete items
+#Sample Object
+
+#['{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}', 
+# '{"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}']
 class UserCollectionItems(Resource):
     def get(self, user_name):
         user = collection.find_one({"user_name": user_name})
         items = user["user_items"]
         return{"Items": items}
+    def post(self, user_name):
+        items = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}, 
+        {"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
+        for i in range(len(items)):
+            collection.update_many({"user_name": user_name}, {"$set":items[i]}, upsert = True)
 
 restful_api.add_resource(UserCollection, '/user/')
 restful_api.add_resource(UserCollectionCreate, '/user/create/<string:user_name>')
 restful_api.add_resource(UserCollectionName, '/user/<string:user_name>')
 restful_api.add_resource(UserCollectionItems, '/user/<string:user_name>/items')
+
 if __name__ == '__main__':
+    # (single,plural,matcher) = pattern_match()
+    # results = get_results(single,plural,matcher)
+    # print(results)
     app.run(debug = True)

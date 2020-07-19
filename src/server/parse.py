@@ -144,3 +144,4 @@ if __name__ == "__main__":
     (single,plural,matcher) = pattern_match()
     results = get_results(single,plural,matcher)
     print(results)
+    print(type(results))
