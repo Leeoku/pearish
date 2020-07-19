@@ -13,6 +13,7 @@ from flask.json import JSONEncoder, jsonify
 from parse import *
 
 app = flask.Flask(__name__)
+restful_api = Api(app)
 url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(
     api.ADMIN_NAME, api.PASSWORD)
 
@@ -93,7 +94,8 @@ class UserCollectionItems(Resource):
         items = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}, 
         {"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
         for i in range(len(items)):
-            collection.update_many({"user_name": user_name}, {"$set":items[i]}, upsert = True)
+            #collection.update_many({"user_name": user_name}, {"$set":items[i]}, upsert = True)
+            collection.update_many({"user_name": user_name}, {"$push": { "user_items" : items[i] }}, upsert = True)
 
 restful_api.add_resource(UserCollection, '/user/')
 restful_api.add_resource(UserCollectionCreate, '/user/create/<string:user_name>')
