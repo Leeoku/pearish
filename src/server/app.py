@@ -36,7 +36,7 @@ def my_index():
     return render_template("index.html", token= test)
 app.run(debug=True)
 
-@app.route("/upload", methods = ['POST'])
+@app.route("/user/upload", methods = ['POST'])
 def upload_file():
     file = request.files['file']
     print(file)
