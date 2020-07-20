@@ -1,6 +1,7 @@
 import os
 import pymongo
-import flask
+import flask 
+from flask import render_template, request
 from pprint import pprint
 import api
 import json, collections
@@ -32,5 +33,11 @@ test = collection.find_one({"_id":0})
 
 @app.route("/")
 def my_index():
-    return flask.render_template("index.html", token= test)
+    return render_template("index.html", token= test)
 app.run(debug=True)
+
+@app.route("/upload", methods = ['POST'])
+def upload_file():
+    file = request.files['file']
+    print(file)
+    return "done"
