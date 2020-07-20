@@ -11,6 +11,7 @@ return(
         onSubmit={(e) => e.preventDefault()}>
             <div>
             <input 
+            accept = "image/*"
             type = "file" 
             name="file" 
             value = {selectedFile}
