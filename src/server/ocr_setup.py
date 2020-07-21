@@ -30,7 +30,8 @@ def ocr_space_file(
         r = requests.post(
             "https://api.ocr.space/parse/image", files={filename: f}, data=payload,
         )
-    return r.content.decode()
+    #return r.content.decode()
+    return r.json()
   
 def ocr_space_url(
     url, overlay=False, api_key=ocr_key, language="eng", isTable=True, scale=True
