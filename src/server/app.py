@@ -55,6 +55,9 @@ class UserCollectionCreate(Resource):
 #NEED TO ADD PAYLOAD FROM PARSE.PY AND IDENTIFY WHICH USER IT IS, THIS POST IS A PLACEHOLDER
     def post(self, user_name):
         payload = {
+            #First Name
+            #Last Name
+            #Email
             "user_name":user_name,
             "user_items": [{
                 "cateogry": "",
@@ -91,11 +94,14 @@ class UserCollectionItems(Resource):
         items = user["user_items"]
         return{"Items": items}
     def post(self, user_name):
-        items = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}, 
-        {"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
-        for i in range(len(items)):
+        # results = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}, 
+        # {"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
+        (single,plural,matcher) = pattern_match()
+        results = get_results(single,plural,matcher)
+        for i in range(len(results)):
             #collection.update_many({"user_name": user_name}, {"$set":items[i]}, upsert = True)
-            collection.update_many({"user_name": user_name}, {"$push": { "user_items" : items[i] }}, upsert = True)
+            collection.update_many({"user_name": user_name}, {"$push": { "user_items" : results[i] }}, upsert = True)
+        return f"Updated items for {user_name}"
 
 restful_api.add_resource(UserCollection, '/user/')
 restful_api.add_resource(UserCollectionCreate, '/user/create/<string:user_name>')
