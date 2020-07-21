@@ -14,15 +14,17 @@ export const register = (newUser) => {
 };
 
 export const login = (user) => {
-  return axios("http://localhost:5000/users/login", {
-    email: user.email,
-    password: user.password,
-  })
+  return axios
+    .post("http://localhost:5000/users/login", {
+      email: user.email,
+      password: user.password,
+    })
     .then((response) => {
-      localStorage.setItem("usertoken", response.data.token);
+      window.localStorage.setItem("usertoken", response.data.token);
       return response.data.token;
     })
     .catch((err) => {
       console.log(err);
     });
+  print("line 17 success");
 };
