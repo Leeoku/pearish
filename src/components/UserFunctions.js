@@ -26,5 +26,4 @@ export const login = (user) => {
     .catch((err) => {
       console.log(err);
     });
-  print("line 17 success");
 };
