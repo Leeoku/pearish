@@ -14,7 +14,7 @@ export const register = (newUser) => {
 };
 
 export const login = (user) => {
-  return axios("http://localhost:5000/users/login", {
+  return axios.post("http://localhost:5000/users/login", {
     email: user.email,
     password: user.password,
   })
