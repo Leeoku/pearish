@@ -1,7 +1,7 @@
 import os
 import sys
 import pymongo
-import flask 
+import flask
 from flask import render_template, request
 from pprint import pprint
 import api
@@ -25,9 +25,11 @@ app = flask.Flask(__name__)
 restful_api = Api(app)
 # app.config['MONGO_URI'] = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(
 #     api.ADMIN_NAME, api.PASSWORD)
+
 url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(
     api.ADMIN_NAME, api.PASSWORD)
 app.config['MONGO_URI'] = url
+app.config['SECRET_KEY'] = 'super secret key'
 
 
 mongo = PyMongo(app)
@@ -56,7 +58,8 @@ collection = db['users']
 
 # test = collection.find_one({"_id": 0})
 
-@app.route("/user/upload", methods = ['POST'])
+
+@app.route("/user/upload", methods=['POST'])
 def upload_file():
     file = request.files['file']
     print(file)
@@ -65,6 +68,7 @@ def upload_file():
 # @app.route("/")
 # def my_index():
 #     return flask.render_template("index.html", token=test)
+
 
 @app.route('/users/register', methods=["POST"])
 def register():
@@ -150,7 +154,7 @@ class UserCollection(Resource):
 
 # Response to get, update and delete one user
 # defget (self, email)
-#user = collection.find_one({email": email})
+# user = collection.find_one({email": email})
 class UserCollectionName(Resource):
     def get(self, user_name):
         user = collection.find_one({"user_name": user_name})
@@ -161,7 +165,7 @@ class UserCollectionName(Resource):
         collection.delete_one({"user_name": user_name})
         return f"{user_name} deleted"
 
-    #NEED TO UPDATE THIS LATER
+    # NEED TO UPDATE THIS LATER
     # def post(self, user_name):
     #     collection.update_one({"user_name": user_name})
     #     return f"{user_name} updated"
@@ -180,22 +184,23 @@ class UserCollectionItems(Resource):
         return{"Items": items}
 
     def post(self, user_name):
-        # results = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}, 
+        # results = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1},
         # {"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
         user = collection.find_one({"user_name": user_name})
-        (single,plural,matcher) = pattern_match()
-        results = get_results(single,plural,matcher)
+        (single, plural, matcher) = pattern_match()
+        results = get_results(single, plural, matcher)
         for i in range(len(results)):
             #collection.update_many({"user_name": user_name}, {"$set":items[i]}, upsert = True)
-            collection.update_many({"user_name": user_name}, {"$push": { "user_items" : results[i] }}, upsert = True)
+            collection.update_many({"user_name": user_name}, {
+                                   "$push": {"user_items": results[i]}}, upsert=True)
         return f"Updated items for {user_name}"
-    
+
     def delete(self, user_name):
         pass
 
 
 restful_api.add_resource(UserCollection, '/user/')
-#restful_api.add_resource(UserCollectionCreate,'/user/create/<string:user_name>')
+# restful_api.add_resource(UserCollectionCreate,'/user/create/<string:user_name>')
 restful_api.add_resource(UserCollectionName, '/user/<string:user_name>')
 restful_api.add_resource(UserCollectionItems, '/user/<string:user_name>/items')
 
