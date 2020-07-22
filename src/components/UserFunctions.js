@@ -12,7 +12,6 @@ export const register = (newUser) => {
       console.log("Registered");
     });
 };
-
 export const login = (user) => {
   return axios
     .post("http://localhost:5000/users/login", {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
-import Axios from "axios";
+import axios from "axios";
 
 class Profile extends Component {
   constructor() {
@@ -9,7 +9,7 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      items: []
+      items: [],
     };
   }
 
@@ -24,16 +24,17 @@ class Profile extends Component {
     });
   }
 
-  getItems(){
-    Axios.get('localhost:5000/user/ken@gmail.com')
-      .then((response) =>{
-        const data = response.data
-        this.setState({items: data})
-        console.log("Data received")
+  getItems() {
+    axios
+      .get("http://localhost:5000/user/ken@gmail.com")
+      .then((response) => {
+        const data = response.data;
+        this.setState({ user_items: data });
+        console.log("Data received");
       })
-      .catch(()=> {
-        console.log(console.error())
-        alert('Could not get data')
+      .catch(() => {
+        console.log(console.error());
+        alert("Could not get data");
       });
   }
   render() {
@@ -57,11 +58,11 @@ class Profile extends Component {
                 <td>Email</td>
                 <td>{this.state.email}</td>
               </tr>
-              <tr>      
+              <tr>
                 <td>Items</td>
-                <td>{this.state.items}</td>
+                <td>(this.state.user_items)</td>
               </tr>
-             </tbody>
+            </tbody>
           </table>
         </div>
       </div>
