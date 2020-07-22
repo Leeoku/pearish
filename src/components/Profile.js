@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
+import Axios from "axios";
 
 class Profile extends Component {
   constructor() {
@@ -8,12 +9,14 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
+      items: []
     };
   }
 
   componentDidMount() {
     const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
+    this.getItems();
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
@@ -21,6 +24,18 @@ class Profile extends Component {
     });
   }
 
+  getItems(){
+    Axios.get('localhost:5000/user/ken@gmail.com')
+      .then((response) =>{
+        const data = response.data
+        this.setState({items: data})
+        console.log("Data received")
+      })
+      .catch(()=> {
+        console.log(console.error())
+        alert('Could not get data')
+      });
+  }
   render() {
     return (
       <div className="container">
@@ -42,7 +57,11 @@ class Profile extends Component {
                 <td>Email</td>
                 <td>{this.state.email}</td>
               </tr>
-            </tbody>
+              <tr>      
+                <td>Items</td>
+                <td>{this.state.items}</td>
+              </tr>
+             </tbody>
           </table>
         </div>
       </div>
