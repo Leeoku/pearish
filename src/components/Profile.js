@@ -29,7 +29,8 @@ class Profile extends Component {
       .get("http://localhost:5000/user/ken@gmail.com")
       .then((response) => {
         const data = response.data;
-        this.setState({ user_items: data });
+        console.log(data)
+        this.setState({ data });
         console.log("Data received");
       })
       .catch(() => {
@@ -60,7 +61,7 @@ class Profile extends Component {
               </tr>
               <tr>
                 <td>Items</td>
-                <td>(this.state.user_items)</td>
+                <td>{this.state.user_items}</td>
               </tr>
             </tbody>
           </table>
