@@ -8,7 +8,7 @@ import api
 import json
 import collections
 import bson
-#import bsonjs
+
 from bson import json_util
 from flask_restful import Api, Resource
 from flask.json import JSONEncoder, jsonify
@@ -59,7 +59,7 @@ collection = db['users']
 # test = collection.find_one({"_id": 0})
 
 
-@app.route("/user/upload", methods=['POST'])
+@app.route("/users/upload", methods=['POST'])
 def upload_file():
     file = request.files['file']
     print(file)
