@@ -9,12 +9,14 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
+      items: [],
     };
   }
 
   componentDidMount() {
     const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
+    this.getItem()
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
@@ -26,7 +28,7 @@ class Profile extends Component {
     axios
       .get("http://localhost:5000/user/ken@gmail.com")
       .then((response) => {
-        const user_items = response.user_items;
+        const user_items = response.data;
         console.log(user_items);
         JSON.stringify(user_items);
         this.setState(user_items);
@@ -61,9 +63,10 @@ class Profile extends Component {
               <tr>
                 <td>Items</td>
                 <td>
-                  {this.state.user_items.map((user_item) => (
+                  {this.state.user_items}
+                  {/* {this.state.user_items.map((user_item) => (
                     <getItem user_item={user_item} />
-                  ))}
+                  ))} */}
                 </td>
               </tr>
             </tbody>
