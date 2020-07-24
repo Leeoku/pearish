@@ -9,14 +9,12 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      items: [],
     };
   }
 
   componentDidMount() {
     const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
-    this.getItems();
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
@@ -24,13 +22,14 @@ class Profile extends Component {
     });
   }
 
-  getItems() {
+  getItem() {
     axios
       .get("http://localhost:5000/user/ken@gmail.com")
       .then((response) => {
-        const data = response.data;
-        console.log(data)
-        this.setState({ data });
+        const user_items = response.user_items;
+        console.log(user_items);
+        JSON.stringify(user_items);
+        this.setState(user_items);
         console.log("Data received");
       })
       .catch(() => {
@@ -61,7 +60,11 @@ class Profile extends Component {
               </tr>
               <tr>
                 <td>Items</td>
-                <td>{this.state.user_items}</td>
+                <td>
+                  {this.state.user_items.map((user_item) => (
+                    <getItem user_item={user_item} />
+                  ))}
+                </td>
               </tr>
             </tbody>
           </table>
