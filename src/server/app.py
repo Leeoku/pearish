@@ -196,6 +196,18 @@ class UserCollectionItems(Resource):
         return f"Updated items for {user_name}"
 
     def delete(self, user_name):
+        item = {"name": "carrot", "category": "placholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
+        item_name = item["name"]
+        lookup = collection.find_one({"user_name": user_name})
+        dbitem = lookup.get('user_items')
+        
+        for index, entry in enumerate(dbitem):
+            name = json.loads(entry).get("name")
+            if name == item_name:
+                collection.update({"user_name":user_name}, {"$pull": {"user_items": dbitem[index]}})
+                return f"{item_name} deleted"
+            return f"No item found"
+    def put(self, user_name):
         pass
 
 
