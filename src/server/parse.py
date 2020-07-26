@@ -37,7 +37,6 @@ def food_database():
     food_groups = np.concatenate((dairy, meat, grain, fruit_veg))
     return food_groups
 
-
 # filter for parsed words, removes stopwords, punctuation and returns
 # a tuple of singular and plural words
 def filter_words(nlp,all_words):
@@ -65,7 +64,7 @@ def filter_words(nlp,all_words):
 # returns the items present in the reciept as well as the 
 # count of each item in dict() format
 def pattern_match():
-    nlp = spacy.load('en')
+    nlp = spacy.load('en_core_web_sm')
     matcher = PhraseMatcher(nlp.vocab, attr = 'LOWER') 
     parsed_words = parse()
     
@@ -131,16 +130,17 @@ def get_results(text_doc_singular, text_doc_plural, matcher):
     results_with_dates = []
     today,expiry = get_dates()
     for k, v in results.items():   
-        ind_item = (json.dumps({"name" : str(k), "category" : "placholder", "purchase_date" : today, "expiration_date" : expiry, 
+        ind_item = (json.dumps({name : str(k), category : "placeholder", purchase_date : today, "expiration_date" : expiry, 
             "count" : v }))
 
         results_with_dates.append(ind_item)
 
     return results_with_dates
 
+    results = dict((i, results.count(i)) for i in results)
+    return results
 
 if __name__ == "__main__":
     (single,plural,matcher) = pattern_match()
     results = get_results(single,plural,matcher)
-    get_dates()
     print(results)

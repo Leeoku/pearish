@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 class Profile extends Component {
   constructor() {
@@ -8,12 +9,14 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
+      items: [],
     };
   }
 
   componentDidMount() {
-    const token = localStorage.usertoken;
+    const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
+    this.getItem()
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
@@ -21,6 +24,21 @@ class Profile extends Component {
     });
   }
 
+  getItem() {
+    axios
+      .get("http://localhost:5000/user/ken@gmail.com")
+      .then((response) => {
+        const user_items = response.data;
+        console.log(user_items);
+        JSON.stringify(user_items);
+        this.setState(user_items);
+        console.log("Data received");
+      })
+      .catch(() => {
+        console.log(console.error());
+        alert("Could not get data");
+      });
+  }
   render() {
     return (
       <div className="container">
@@ -41,6 +59,15 @@ class Profile extends Component {
               <tr>
                 <td>Email</td>
                 <td>{this.state.email}</td>
+              </tr>
+              <tr>
+                <td>Items</td>
+                <td>
+                  {this.state.user_items}
+                  {/* {this.state.user_items.map((user_item) => (
+                    <getItem user_item={user_item} />
+                  ))} */}
+                </td>
               </tr>
             </tbody>
           </table>
