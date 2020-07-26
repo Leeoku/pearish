@@ -16,7 +16,7 @@ class Profile extends Component {
   componentDidMount() {
     const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
-    this.getItem()
+    this.getItem();
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
@@ -26,7 +26,7 @@ class Profile extends Component {
 
   getItem() {
     axios
-      .get("http://localhost:5000/user/ken@gmail.com")
+      .get("http://localhost:5000/users/<string:user_name>")
       .then((response) => {
         const user_items = response.data;
         console.log(user_items);
