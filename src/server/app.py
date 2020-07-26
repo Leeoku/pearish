@@ -172,10 +172,8 @@ class UserCollectionName(Resource):
 
 # Response to get and delete items
 # Sample Object
-
 # ['{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}',
 # '{"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}']
-
 
 class UserCollectionItems(Resource):
     def get(self, user_name):

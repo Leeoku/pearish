@@ -130,7 +130,7 @@ def get_results(text_doc_singular, text_doc_plural, matcher):
     results_with_dates = []
     today,expiry = get_dates()
     for k, v in results.items():   
-        ind_item = (json.dumps({name : str(k), category : "placeholder", purchase_date : today, "expiration_date" : expiry, 
+        ind_item = (json.dumps({"name" : str(k), "category" : "placeholder", "purchase_date" : today, "expiration_date" : expiry, 
             "count" : v }))
 
         results_with_dates.append(ind_item)
