@@ -8,7 +8,6 @@ import api
 import json
 import collections
 import bson
-
 from bson import json_util
 from flask_restful import Api, Resource
 from flask.json import JSONEncoder, jsonify
@@ -20,6 +19,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token
+#from mongostuff import *
 
 app = flask.Flask(__name__)
 restful_api = Api(app)
@@ -48,27 +48,12 @@ db = cluster['StackedUp']
 # get collection from db
 collection = db['users']
 
-# testing insert
-
-# collection.insert_one({"_id": 0, "user_name":"omar", "user_items": [
-#             {"name":"milk", "category": "dairy",
-#             "purchase_date": "10/6/2020", "expiration_date":"23/6/2020"}
-#       ]
-# })
-
-# test = collection.find_one({"_id": 0})
-
 
 @app.route("/users/upload", methods=['POST'])
 def upload_file():
     file = request.files['file']
     print(file)
     return "done"
-
-# @app.route("/")
-# def my_index():
-#     return flask.render_template("index.html", token=test)
-
 
 @app.route('/users/register', methods=["POST"])
 def register():
@@ -127,11 +112,11 @@ def login():
 
 class UserCollection(Resource):
     def get(self):
-        #user = collection.find_one({"user_name": user_name})
         container = []
         for user in collection.find():
             container.append(user)
         return json.loads(json_util.dumps(container))
+  
 
 # Response to add an entry, mapped to /user/create/<user_name>
 
@@ -158,24 +143,24 @@ class UserCollection(Resource):
 class UserCollectionName(Resource):
     def get(self, user_name):
         user = collection.find_one({"user_name": user_name})
-        # return {"User": user}
         return json.loads(json_util.dumps(user))
-
+        
     def delete(self, user_name):
         collection.delete_one({"user_name": user_name})
         return f"{user_name} deleted"
-
-    # NEED TO UPDATE THIS LATER
-    # def post(self, user_name):
-    #     collection.update_one({"user_name": user_name})
-    #     return f"{user_name} updated"
 
 # Response to get and delete items
 # Sample Object
 # ['{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1}',
 # '{"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}']
 
+
+
 class UserCollectionItems(Resource):
+    
+    def db_update(id, data):
+        collection.update_one(id, {"$set": data})
+
     def get(self, user_name):
         user = collection.find_one({"user_name": user_name})
         items = user["user_items"]
@@ -183,30 +168,83 @@ class UserCollectionItems(Resource):
 
     def post(self, user_name):
         # results = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1},
-        # {"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
+        # {"name": "beer", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
         user = collection.find_one({"user_name": user_name})
         (single, plural, matcher) = pattern_match()
         results = get_results(single, plural, matcher)
-        for i in range(len(results)):
-            #collection.update_many({"user_name": user_name}, {"$set":items[i]}, upsert = True)
-            collection.update_many({"user_name": user_name}, {
-                                   "$push": {"user_items": results[i]}}, upsert=True)
+
+
+        for x in results:
+            user['user_items'].append(x)
+
+        db_update({"user_name": user_name}, user)
+
         return f"Updated items for {user_name}"
+        # print(user)
+        # collection.update_one({"user_name": user_name}, {"$set": {}})
+
+
+        # (single, plural, matcher) = pattern_match()
+        # results = get_results(single, plural, matcher)
+        # for i in range(len(results)):
+        #     #collection.update_many({"user_name": user_name}, {"$set":items[i]}, upsert = True)
+        #     collection.update_many({"user_name": user_name}, {
+        #                            "$push": {"user_items": results[i]}}, upsert=True)
+        # return f"Updated items for {user_name}"
+
+
 
     def delete(self, user_name):
-        item = {"name": "carrot", "category": "placholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
+        item = {"name": "oranges", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
         item_name = item["name"]
         lookup = collection.find_one({"user_name": user_name})
-        dbitem = lookup.get('user_items')
-        
-        for index, entry in enumerate(dbitem):
-            name = json.loads(entry).get("name")
-            if name == item_name:
-                collection.update({"user_name":user_name}, {"$pull": {"user_items": dbitem[index]}})
+        db_item = lookup.get('user_items')
+
+        for index in range(0,len(db_item)):
+            if db_item[index]["name"] == item_name:
+                collection.update({"user_name":user_name}, {"$pull": {"user_items": db_item[index]}})
                 return f"{item_name} deleted"
-            return f"No item found"
+            else:
+                continue
+        return f"{item_name} not found"
+
+        #         collection.update({"user_name":user_name}, {"$pull": {"user_items": db_item[index]["name"]}})
+        #         return f"{item_name} deleted"
+        #     return f"{item_name} not found"
+        # for index, entry in enumerate(db_item):
+        #     print(index, entry)
+        #     # name = json.loads(entry).get("name")
+        #     name = db_item[index]["name"]
+        #     if name == item_name:
+        #         collection.update({"user_name":user_name}, {"$pull": {"user_items": db_item[index]}})
+        #         return f"{item_name} deleted"
+        #     return f"No item found"
+    
+
+
     def put(self, user_name):
-        pass
+        #sample incoming object
+        item = {"name": "apple", "category": "applessuck", "purchase_date": "11/21/21", "expiration_date": "12/04/21", "count": 5}
+        item_name = item["name"]
+        item_category = item['category']
+        item_purchase_date = item["purchase_date"]
+        item_expiration_date = item["expiration_date"]
+        item_count = item["count"]
+        lookup = collection.find_one({"user_name": user_name})
+        db_item = lookup.get('user_items')
+
+        for i in range(0, len(db_item)):
+            if lookup['user_items'][i]['name'] == item_name:
+                lookup['user_items'][i]['category'] = item_category
+                lookup['user_items'][i]["purchase_date"] = item_purchase_date
+                lookup['user_items'][i]["expiration_date"] = item_expiration_date
+                lookup['user_items'][i]['count'] = item_count
+                print("True")              
+                break
+            else:
+                continue
+        collection.update_one({"user_name":user_name}, {"$set": lookup})
+        return f"{item_name} has been updated"
 
 
 restful_api.add_resource(UserCollection, '/user/')
