@@ -105,7 +105,7 @@ def login():
     return result
 
 
-# Response to get all user items, mapped to /user/
+# Response to get all user items, mapped to /users/
 
 class UserCollection(Resource):
     def get(self):
@@ -114,7 +114,7 @@ class UserCollection(Resource):
             container.append(user)
         return json.loads(json_util.dumps(container))
 
-# Response to get specific collection for a user, mapped to /user/<string:user_name>
+# Response to get specific collection for a user, mapped to /users/<string:user_name>
 class UserCollectionName(Resource):
     def get(self, user_name):
         user = collection.find_one({"user_name": user_name})
@@ -133,7 +133,7 @@ class UserCollectionName(Resource):
 def db_update(id, data):
     collection.update_one(id, {"$set": data})
 
-#Response for item requests, mapped to /user/<string:<user_name>/items
+#Response for item requests, mapped to /users/<string:<user_name>/items
 class UserCollectionItems(Resource):
     
     def get(self, user_name):
@@ -141,7 +141,7 @@ class UserCollectionItems(Resource):
         items = user["user_items"]
         return{"Items": items}
 
-    #Add items to a user_items for specific user_name
+    # Add items to a user_items for specific user_name
     def post(self, user_name):
         # results = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1},
         # {"name": "beer", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
@@ -149,7 +149,7 @@ class UserCollectionItems(Resource):
         (single, plural, matcher) = pattern_match()
         results = get_results(single, plural, matcher)
 
-        #Add new parsed item into user_items array
+        # Add new parsed item into user_items array
         for x in results:
             user['user_items'].append(x)
         #Update the Collection
@@ -198,10 +198,10 @@ class UserCollectionItems(Resource):
         return f"{item_name} has been updated"
 
 
-restful_api.add_resource(UserCollection, '/user/')
+restful_api.add_resource(UserCollection, '/users/')
 # restful_api.add_resource(UserCollectionCreate,'/user/create/<string:user_name>')
-restful_api.add_resource(UserCollectionName, '/user/<string:user_name>')
-restful_api.add_resource(UserCollectionItems, '/user/<string:user_name>/items')
+restful_api.add_resource(UserCollectionName, '/users/<string:user_name>')
+restful_api.add_resource(UserCollectionItems, '/users/<string:user_name>/items')
 
 if __name__ == '__main__':
     # (single,plural,matcher) = pattern_match()

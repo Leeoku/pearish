@@ -28,7 +28,7 @@ class Profile extends Component {
 
   getItem(email) {
     axios
-      .get("http://localhost:5000/user/" + encodeURIComponent(email.email))
+      .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
       .then((response) => {
         const user_items = response.data;
         console.log(user_items);
