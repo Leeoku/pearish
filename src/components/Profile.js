@@ -79,36 +79,9 @@ class Profile extends Component {
             </Accordion.Collapse>
           </Card>
         </Accordion>
-        <Accordion>
-          <Card>
-            <Accordion.Toggle as={Card.Header} eventKey="0">
-              Your Pantry
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>
-                <div className="jumbotron mt-5">
-                  <div className="col-sm-8 mx-auto">
-                    <h1 className="text-center">Your Pantry</h1>
-                  </div>
-                  <Table striped border hover responsive>
-                    <thread>
-                      <tr>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Purchase Date</th>
-                        <th>Expiration Date</th>
-                        <th>Count</th>
-                      </tr>
-                    </thread>
-                    {/*this.state.user_items.map((user_item) => (
-          <UserItem user_item={user_item} />
-        ))*/}
-                  </Table>
-                </div>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
+        <Table>
+          <UserItem />
+        </Table>
       </div>
     );
   }
