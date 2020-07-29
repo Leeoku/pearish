@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UploadForm from "./UploadForm";
+import StockedUpCarousel from "./Carousel";
 
 class Landing extends Component {
   render() {
@@ -10,6 +11,9 @@ class Landing extends Component {
             <h1 className="text-center">WELCOME TO YOUR DIGITAL PANTRY</h1>
           </div>
           <UploadForm></UploadForm>
+        </div>
+        <div>
+          <StockedUpCarousel></StockedUpCarousel>
         </div>
       </div>
     );
