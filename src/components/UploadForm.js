@@ -20,10 +20,10 @@ const UploadForm=()=>{
         FileUploadService.upload(currentFile,(event) =>{
             
         })
-        .then((response)=>{
-            setMessage(response.data.message);
-            return FileUploadService.getFiles();
-        })
+        // .then((response)=>{
+        //     setMessage(response.data.message);
+        //     return FileUploadService.getFiles();
+        // })
         .then((files)=>{
             setFileInfos(files.data);
         })
@@ -34,11 +34,11 @@ const UploadForm=()=>{
         });
         setSelectedFile(undefined);
     };
-    useEffect(()=>{
-       FileUploadService.getFiles().then((response)=>{
-           setFileInfos(response.data);
-       });
-    }, []);
+    // useEffect(()=>{
+    //    FileUploadService.getFiles().then((response)=>{
+    //        setFileInfos(response.data);
+    //    });
+    // }, []);
 return(<div>
     {currentFile && (
       <div className="progress">
@@ -74,12 +74,12 @@ return(<div>
     <div className="card">
       <div className="card-header">List of Files</div>
       <ul className="list-group list-group-flush">
-        {fileInfos &&
+        {/* {fileInfos &&
           fileInfos.map((file, index) => (
             <li className="list-group-item" key={index}>
               <a href={file.url}>{file.name}</a>
             </li>
-          ))}
+          ))} */}
       </ul>
     </div>
   </div>
