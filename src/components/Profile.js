@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import UserItem from "./UserItem";
 import Table from "react-bootstrap/Table";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
+import ReactTable from "react-table-6";
 
 class Profile extends Component {
   constructor() {
@@ -47,6 +47,28 @@ class Profile extends Component {
       });
   }
   render() {
+    const columns = [
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+      {
+        Header: "Category",
+        accessor: "category",
+      },
+      {
+        Header: "Purchased",
+        accessor: "purchase_date",
+      },
+      {
+        Header: "Expires",
+        accessor: "expiration_date",
+      },
+      {
+        Header: "Quantity",
+        accessor: "count",
+      },
+    ];
     return (
       <div className="container">
         <Accordion>
@@ -79,9 +101,12 @@ class Profile extends Component {
             </Accordion.Collapse>
           </Card>
         </Accordion>
-        <Table>
-          <UserItem />
-        </Table>
+        <div>
+          <ReactTable
+            columns={columns}
+            data={this.state.user_items}
+          ></ReactTable>
+        </div>
       </div>
     );
   }
