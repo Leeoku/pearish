@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+import UserItem from "./UserItem";
+import Table from "react-bootstrap/Table";
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
 
 class Profile extends Component {
   constructor() {
@@ -45,36 +49,66 @@ class Profile extends Component {
   render() {
     return (
       <div className="container">
-        <div className="jumbotron mt-5">
-          <div className="col-sm-8 mx-auto">
-            <h1 className="text-center">PROFILE</h1>
-          </div>
-          <table className="table col-md-6 mx-auto">
-            <tbody>
-              <tr>
-                <td>First Name</td>
-                <td>{this.state.first_name}</td>
-              </tr>
-              <tr>
-                <td>Last Name</td>
-                <td>{this.state.last_name}</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>{this.state.email}</td>
-              </tr>
-              <tr>
-                <td>Items</td>
-                <td>
-                  {JSON.stringify(this.state.user_items)}
-                  {/* {this.state.user_items.map((user_item) => (
-                    <UserItem user_item={user_item} />
-                  ))} */}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <Accordion>
+          <Card>
+            <Accordion.Toggle as={Card.Header} eventKey="0">
+              Your Profile
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey="0">
+              <Card.Body>
+                <div className="jumbotron mt-5">
+                  <div className="col-sm-8 mx-auto">
+                    <h1 className="text-center">Your Profile</h1>
+                  </div>
+                  <Table striped border hover>
+                    <tbody>
+                      <tr>
+                        <td>Name</td>
+                        <td>
+                          {this.state.first_name} {this.state.last_name}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td>{this.state.email}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
+        <Accordion>
+          <Card>
+            <Accordion.Toggle as={Card.Header} eventKey="0">
+              Your Pantry
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey="0">
+              <Card.Body>
+                <div className="jumbotron mt-5">
+                  <div className="col-sm-8 mx-auto">
+                    <h1 className="text-center">Your Pantry</h1>
+                  </div>
+                  <Table striped border hover responsive>
+                    <thread>
+                      <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Purchase Date</th>
+                        <th>Expiration Date</th>
+                        <th>Count</th>
+                      </tr>
+                    </thread>
+                    {/*this.state.user_items.map((user_item) => (
+          <UserItem user_item={user_item} />
+        ))*/}
+                  </Table>
+                </div>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
       </div>
     );
   }
