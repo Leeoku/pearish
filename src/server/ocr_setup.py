@@ -1,6 +1,7 @@
 from api import ocr_key
 import requests, json
 from collections import OrderedDict
+import os
 
 def ocr_space_file(
     filename, overlay=False, api_key=ocr_key, language="eng", istable=True, scale=True
@@ -67,7 +68,11 @@ def ocr_space_url(
 
 # API response and obtain "LineText"
 def parse():
-    data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
+    #Look for a pic named receipt.extension, need to add logic if greater than allowed pic size
+    img_file = os.listdir('./img')[0]
+    img_file_path = './img/' + img_file
+    data = ocr_space_file(img_file_path)
+    # data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
     lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
     words = [line.get("LineText").lower() for line in lines]
     return words

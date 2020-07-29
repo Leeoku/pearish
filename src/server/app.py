@@ -2,7 +2,7 @@ import os
 import sys
 import pymongo
 import flask
-from flask import render_template, request
+from flask import flash, request, redirect, url_for,request
 from pprint import pprint
 import api
 import json
@@ -20,17 +20,20 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token
 #from mongostuff import *, future use of helper functions
+from werkzeug.utils import secure_filename
 
 app = flask.Flask(__name__)
 restful_api = Api(app)
 # app.config['MONGO_URI'] = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(
 #     api.ADMIN_NAME, api.PASSWORD)
 
+UPLOAD_FOLDER = './img'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=true&w=majority".format(
     api.ADMIN_NAME, api.PASSWORD)
 app.config['MONGO_URI'] = url
 app.config['SECRET_KEY'] = 'super secret key'
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
@@ -48,12 +51,21 @@ db = cluster['StackedUp']
 # get collection from db
 collection = db['users']
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/users/upload", methods=['POST'])
 def upload_file():
     file = request.files['file']
-    print(file)
+    if file and allowed_file(file.filename):
+        filename =  "receipt." + file.filename.rsplit('.', 1)[1].lower()
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return "done"
+
+
+# @app.route("/files", methods=['POST'])
+# def files():
+#     return "FILES HERE"
 
 #Register Function
 @app.route('/users/register', methods=["POST"])
