@@ -5,18 +5,18 @@ const upload = (file, onUploadProgress)=>{
     
     formData.append("file", file);
 
-    return axios.post("users/upload", formData, {
+    return axios.post("http://localhost:5000/users/upload", formData, {
         headers:{
             "Content-type" : "multipart/form-data",
         },
         onUploadProgress,
     });
 };
-const getFiles=()=>{
-    return axios.get("/files");
-};
+// const getFiles=()=>{
+//     return axios.get("/files");
+// };
 
 export default{
     upload,
-    getFiles,
+    // getFiles,
 };
