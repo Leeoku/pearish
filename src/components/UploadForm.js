@@ -23,7 +23,7 @@ const UploadForm = () => {
       // })
       .then((files) => {
         setFileInfos(files.data);
-        setMessage("File Uploaded!");
+        setMessage("Filed Uploaded!");
       })
       .catch(() => {
         setProgress(0);
