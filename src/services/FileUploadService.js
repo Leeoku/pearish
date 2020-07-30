@@ -4,8 +4,6 @@ import Profile from "../components/Profile";
 const upload = (file, onUploadProgress, email)=>{
     let formData = new FormData();
     formData.append("file", file);
-    // <Profile value = {this.state.email} />
-    // user_email = this.props.value
     // return axios.post("http://localhost:5000/users/upload", formData, {
     //     headers:{
     //         "Content-type" : "multipart/form-data",
@@ -19,7 +17,7 @@ const upload = (file, onUploadProgress, email)=>{
         },
         onUploadProgress,
     }),
-        axios.post("http://localhost:5000/users/"+ email+"/items")
+        axios.post("http://localhost:5000/users/" + email + "/items")
     ])
 
 };

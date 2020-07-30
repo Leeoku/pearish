@@ -5,6 +5,7 @@ import Table from "react-bootstrap/Table";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import ReactTable from "react-table-6";
+import UploadForm from "./UploadForm";
 
 class Profile extends Component {
   constructor() {
@@ -131,6 +132,7 @@ class Profile extends Component {
             noDataText={"Please wait while we get your pantry"}
           ></ReactTable>
         </div>
+        <UploadForm email={this.state.email}></UploadForm>
       </div>
     );
   }

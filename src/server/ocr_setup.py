@@ -75,8 +75,8 @@ def parse():
     # data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
     lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
     words = [line.get("LineText").lower() for line in lines]
+    # os.remove(os.listdir('./img')[0])
     return words
-
     
 if __name__ == "__main__":
     parse()

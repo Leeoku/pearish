@@ -160,7 +160,7 @@ class UserCollectionItems(Resource):
         user = collection.find_one({"user_name": user_name})
         (single, plural, matcher) = pattern_match()
         results = get_results(single, plural, matcher)
-
+        print(results)
         # Add new parsed item into user_items array
         for x in results:
             user['user_items'].append(x)

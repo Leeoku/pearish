@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FileUploadService from "../services/FileUploadService";
-const UploadForm = () => {
+import Axios from "axios";
+const UploadForm = (props) => {
   const [selectedFile, setSelectedFile] = useState(undefined);
   const [currentFile, setCurrentFile] = useState(undefined);
   const [progress, setProgress] = useState(0);
@@ -16,7 +17,7 @@ const UploadForm = () => {
     setProgress(0);
     setCurrentFile(currentFile);
 
-    FileUploadService.upload(currentFile, (event) => {})
+    FileUploadService.upload(currentFile, (event) => {}, props.email)
       // .then((response)=>{
       //     setMessage(response.data.message);
       //     return FileUploadService.getFiles();
@@ -71,15 +72,15 @@ const UploadForm = () => {
       </div>
 
       <div className="card">
-        <div className="card-header">List of Files</div>
-        <ul className="list-group list-group-flush">
+        {/* <div className="card-header">List of Files</div> */}
+        {/* <ul className="list-group list-group-flush"> */}
           {/* {fileInfos &&
           fileInfos.map((file, index) => (
             <li className="list-group-item" key={index}>
               <a href={file.url}>{file.name}</a>
             </li>
           ))} */}
-        </ul>
+        {/* </ul> */}
       </div>
     </div>
   );

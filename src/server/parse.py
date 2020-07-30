@@ -143,9 +143,6 @@ def get_results(text_doc_singular, text_doc_plural, matcher):
 if __name__ == "__main__":
     (single,plural,matcher) = pattern_match()
     results = get_results(single,plural,matcher)
-    
-    print(results)
-    print(type(results[0]))
 
 
 
