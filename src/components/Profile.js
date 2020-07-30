@@ -31,6 +31,12 @@ class Profile extends Component {
     });
   }
 
+  deleteRow(name) {
+    const index = this.state.uesr_items.findIndex((user_items) => {
+      return user_items.name === name;
+    });
+    console.log("index", index);
+  }
   getItem(email) {
     axios
       .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
@@ -52,26 +58,44 @@ class Profile extends Component {
       {
         Header: "Name",
         accessor: "name",
+        style: {
+          textAlign: "center",
+        },
       },
       {
         Header: "Category",
         accessor: "category",
+        style: {
+          textAlign: "center",
+        },
       },
       {
         Header: "Purchased",
         accessor: "purchase_date",
+        style: {
+          textAlign: "center",
+        },
         filterable: false,
       },
       {
         Header: "Expires",
         accessor: "expiration_date",
+        style: {
+          textAlign: "center",
+        },
         filterable: false,
       },
       {
         Header: "Quantity",
         accessor: "count",
+        style: {
+          textAlign: "center",
+        },
         sortable: false,
         filterable: false,
+        width: 100,
+        maxwidth: 100,
+        minWidth: 100,
       },
       {
         Header: "Actions",
@@ -80,7 +104,7 @@ class Profile extends Component {
             <button
               style={{ backgroundColor: "red", color: "#fefefe" }}
               onClick={() => {
-                this.deleteRow(this.state.user_items.name);
+                this.deleteRow(props.original.name);
               }}
             >
               Delete
