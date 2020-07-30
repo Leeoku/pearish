@@ -59,14 +59,35 @@ class Profile extends Component {
       {
         Header: "Purchased",
         accessor: "purchase_date",
+        filterable: false,
       },
       {
         Header: "Expires",
         accessor: "expiration_date",
+        filterable: false,
       },
       {
         Header: "Quantity",
         accessor: "count",
+        sortable: false,
+        filterable: false,
+      },
+      {
+        Header: "Actions",
+        Cell: (props) => {
+          return (
+            <button
+              style={{ backgroundColor: "red", color: "#fefefe" }}
+              onClick={() => {
+                this.deleteRow(this.state.user_items.name);
+              }}
+            >
+              Delete
+            </button>
+          );
+        },
+        sortable: false,
+        filterable: false,
       },
     ];
     return (
@@ -105,6 +126,9 @@ class Profile extends Component {
           <ReactTable
             columns={columns}
             data={this.state.user_items}
+            filterable
+            defaultPageSize={5}
+            noDataText={"Please wait while we get your pantry"}
           ></ReactTable>
         </div>
       </div>
