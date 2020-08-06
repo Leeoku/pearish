@@ -1,7 +1,8 @@
 from api import ocr_key
 import requests, json
 from collections import OrderedDict
-import os
+import os, glob
+from pathlib import Path
 
 def ocr_space_file(
     filename, overlay=False, api_key=ocr_key, language="eng", istable=True, scale=True
@@ -68,15 +69,25 @@ def ocr_space_url(
 
 # API response and obtain "LineText"
 def parse():
-    #Look for a pic named receipt.extension, need to add logic if greater than allowed pic size
-    img_file = os.listdir('./img')[0]
-    img_file_path = './img/' + img_file
-    data = ocr_space_file(img_file_path)
-    # data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
-    lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
-    words = [line.get("LineText").lower() for line in lines]
-    # os.remove(os.listdir('./img')[0])
-    return words
+    cwd = os.getcwd()
+    final_directory = os.path.join(cwd, 'img')
+    #Checks to see if there is an img folder that isn't empty
+    if os.path.isdir(final_directory) != True or len(os.listdir('./img')) == 0 :
+        return f"Image folder is empty or doesn't exist"
+    #Checks to ensure there is only 1 image max in our existing /img folder
+    elif len(os.listdir('./img')) > 1:
+        files = sorted(Path(final_directory).iterdir(), key=os.path.getctime, reverse=True)
+        for file in files[1:]:
+            os.remove(file)
+    else:
+        #Look for a pic named receipt.extension, need to add logic if greater than allowed pic size
+        img_file = os.listdir('./img')[0]
+        img_file_path = './img/' + img_file
+        data = ocr_space_file(img_file_path)
+        # data = ocr_space_url("https://ocr.space/Content/Images/receipt-ocr-original.jpg")
+        lines = data.get("ParsedResults")[0]["TextOverlay"]["Lines"]
+        words = [line.get("LineText").lower() for line in lines]
+        return words
     
 if __name__ == "__main__":
     parse()
