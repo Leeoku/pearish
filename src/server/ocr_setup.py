@@ -73,7 +73,6 @@ def parse():
     final_directory = os.path.join(cwd, 'img')
     #Checks to see if there is an img folder that isn't empty
     if not os.path.isdir(final_directory) or len(os.listdir('./img')) == 0 :
-        print("FALSE")
         return f"Image folder is empty or doesn't exist"
     #Checks to ensure there is only 1 image max in our existing /img folder
     elif len(os.listdir('./img')) > 1:
