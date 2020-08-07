@@ -1,7 +1,7 @@
 from api import ocr_key
 import requests, json
 from collections import OrderedDict
-import os, glob
+import os
 from pathlib import Path
 
 def ocr_space_file(
@@ -72,7 +72,8 @@ def parse():
     cwd = os.getcwd()
     final_directory = os.path.join(cwd, 'img')
     #Checks to see if there is an img folder that isn't empty
-    if os.path.isdir(final_directory) != True or len(os.listdir('./img')) == 0 :
+    if not os.path.isdir(final_directory) or len(os.listdir('./img')) == 0 :
+        print("FALSE")
         return f"Image folder is empty or doesn't exist"
     #Checks to ensure there is only 1 image max in our existing /img folder
     elif len(os.listdir('./img')) > 1:
