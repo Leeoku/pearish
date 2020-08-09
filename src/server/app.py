@@ -160,7 +160,7 @@ class UserCollectionItems(Resource):
         user = collection.find_one({"user_name": user_name})
         (single, plural, matcher) = pattern_match()
         results = get_results(single, plural, matcher)
-        print(results)
+
         # Add new parsed item into user_items array
         for x in results:
             user['user_items'].append(x)
@@ -171,6 +171,7 @@ class UserCollectionItems(Resource):
     #Delete single item in user_items
     def delete(self, user_name):
         item = {"name": "oranges", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
+        # item = request.get_json()
         item_name = item["name"]
         lookup = collection.find_one({"user_name": user_name})
         db_item = lookup.get('user_items')
@@ -186,8 +187,8 @@ class UserCollectionItems(Resource):
 
     #Look for a specific foodname, then update the collection object
     def put(self, user_name):
-        #sample incoming object
         item = {"name": "oranges", "category": "orangesbetterthanapples", "purchase_date": "11/21/21", "expiration_date": "12/04/21", "count": 5}
+        # item = request.get_json()
         item_name = item["name"]
         item_category = item['category']
         item_purchase_date = item["purchase_date"]

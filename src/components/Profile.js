@@ -30,13 +30,43 @@ class Profile extends Component {
       email: decoded.identity.email,
     });
   }
+ 
+// deleteRow(id) {
 
+//     this.setState({
+
+//       posts: [...this.state.posts.filter(post => post.id !== id)]
+
+//     });
+
+//   }
   deleteRow(name) {
-    const index = this.state.uesr_items.findIndex((user_items) => {
-      return user_items.name === name;
-    });
-    console.log("index", index);
+    // console.log(name_match);
+    // // this.setState({items:name_match})
+    // this.setState((items) =>({items: name_match}));
+    // console.log(name_match);
+    // console.log('name', name)
+    
+//     axios
+//       .delete("http://localhost:5000/users/" + encodeURIComponent(email.email))
+//       .then((response) => {
+    //     const index = this.state.items.find((user_items) => {
+    //       return user_items.name === name;
+
+    // })
+    // this.setState({items: name},() => console.log(this.state.items))    
+    this.setState({items: name})  
   }
+
+  componentDidUpdate(prevProps, prevState){
+    console.log("THIS STATE", this.state.items.constructor !== Array)
+    console.log("THIS STATE", this.state.items)
+    console.log("prev state", prevState.items)
+    if (this.state.items.constructor !== Array && this.state.items == prevState.items){
+      console.log("WORKS");
+    }
+  }
+
   getItem(email) {
     axios
       .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
@@ -104,7 +134,8 @@ class Profile extends Component {
             <button
               style={{ backgroundColor: "red", color: "#fefefe" }}
               onClick={() => {
-                this.deleteRow(props.original.name);
+                this.deleteRow(props.original);
+                // console.log("props", props)
               }}
             >
               Delete
