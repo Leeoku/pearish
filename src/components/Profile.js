@@ -40,7 +40,7 @@ class Profile extends Component {
 //     });
 
 //   }
-  deleteRow(name) {
+  deleteRow(name, user_name) {
     // console.log(name_match);
     // // this.setState({items:name_match})
     // this.setState((items) =>({items: name_match}));
@@ -54,17 +54,36 @@ class Profile extends Component {
     //       return user_items.name === name;
 
     // })
-    // this.setState({items: name},() => console.log(this.state.items))    
-    this.setState({items: name})  
+    // this.setState({items: name},() => console.log(this.state.items))
+    // this.setState({items: name});
+    var array = this.state.items
+    console.log("ARRAY", array);
+    console.log("NAME", name);
+    console.log(array.user_items);
+
+    // Why do i get a cors error if i add HTTP://
+    axios
+      .delete("localhost:5000/users/" + "ken@gmail.com" + "/items", name, {
+        headers: {
+          'Content-Type': 'Delete request to flask',
+          "Access-Control-Allow-Origin": "*",
+        }
+      })
+      .then((response) => {
+        console.log(name);
+      })
+      .catch(() => {
+        alert("Could not delete data");
+      });  
   }
 
   componentDidUpdate(prevProps, prevState){
     console.log("THIS STATE", this.state.items.constructor !== Array)
     console.log("THIS STATE", this.state.items)
     console.log("prev state", prevState.items)
-    if (this.state.items.constructor !== Array && this.state.items == prevState.items){
-      console.log("WORKS");
-    }
+    // if (this.state.items.constructor !== Array && this.state.items === prevState.items){
+    //   console.log("State matches Item");
+    // }
   }
 
   getItem(email) {
@@ -76,6 +95,7 @@ class Profile extends Component {
         JSON.stringify(user_items);
         console.log(JSON.stringify(user_items));
         this.setState(user_items);
+        this.setState({items: user_items})
         console.log("Data received");
       })
       .catch(() => {
@@ -135,7 +155,8 @@ class Profile extends Component {
               style={{ backgroundColor: "red", color: "#fefefe" }}
               onClick={() => {
                 this.deleteRow(props.original);
-                // console.log("props", props)
+                // console.log("props", props.original)
+                // console.log(this.state.items);
               }}
             >
               Delete

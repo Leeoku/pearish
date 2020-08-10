@@ -1,6 +1,7 @@
 import axios from "axios";
 import Profile from "../components/Profile";
 
+
 const upload = (file, onUploadProgress, email)=>{
     let formData = new FormData();
     formData.append("file", file);
@@ -17,7 +18,10 @@ const upload = (file, onUploadProgress, email)=>{
         },
         onUploadProgress,
     }),
-        axios.post("http://localhost:5000/users/" + email + "/items")
+        axios.post("http://localhost:5000/users/" + email + "/items",{
+        headers:{
+            "Content-type" : "text/html; charset=UTF-8", 
+        }}),
     ])
 
 };

@@ -16,7 +16,7 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from datetime import datetime
 from flask_bcrypt import Bcrypt
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token
 #from mongostuff import *, future use of helper functions
@@ -34,13 +34,14 @@ url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=tru
 app.config['MONGO_URI'] = url
 app.config['SECRET_KEY'] = 'super secret key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-CORS(app)
-
+# CORS(app)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 # connect to db and get cluster
 cluster = pymongo.MongoClient(url)
 # cluster = pymongo.MongoClient('MONGO_URI')
@@ -169,10 +170,15 @@ class UserCollectionItems(Resource):
         return f"Updated items for {user_name}"
 
     #Delete single item in user_items
+    @cross_origin()
     def delete(self, user_name):
-        item = {"name": "oranges", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
-        # item = request.get_json()
-        item_name = item["name"]
+        # item = {"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
+        # item_name = item["name"]
+        response = request.get_json()
+        print(response)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        item_name = response["name"]
+        
         lookup = collection.find_one({"user_name": user_name})
         db_item = lookup.get('user_items')
 
