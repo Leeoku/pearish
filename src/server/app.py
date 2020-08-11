@@ -40,8 +40,8 @@ mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-# CORS(app)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
+# cors = CORS(app, resources={r"/*": {"origins": "*"}})
 # connect to db and get cluster
 cluster = pymongo.MongoClient(url)
 # cluster = pymongo.MongoClient('MONGO_URI')

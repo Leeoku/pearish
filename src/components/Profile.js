@@ -40,7 +40,7 @@ class Profile extends Component {
 //     });
 
 //   }
-  deleteRow(name, user_name) {
+  deleteRow(name, email) {
     // console.log(name_match);
     // // this.setState({items:name_match})
     // this.setState((items) =>({items: name_match}));
@@ -60,30 +60,33 @@ class Profile extends Component {
     console.log("ARRAY", array);
     console.log("NAME", name);
     console.log(array.user_items);
-
     // Why do i get a cors error if i add HTTP://
     axios
-      .delete("localhost:5000/users/" + "ken@gmail.com" + "/items", name, {
+      .delete("http://localhost:5000/users/" + encodeURIComponent(email.email) + "/items", name, {
         headers: {
           'Content-Type': 'Delete request to flask',
           "Access-Control-Allow-Origin": "*",
         }
       })
       .then((response) => {
-        console.log(name);
+        const token = window.localStorage.getItem("usertoken");
+        const decoded = jwt_decode(token);
+        this.getItem({
+          email: decoded.identity.email,
+        });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         alert("Could not delete data");
-      });  
-  }
+      }); 
 
-  componentDidUpdate(prevProps, prevState){
-    console.log("THIS STATE", this.state.items.constructor !== Array)
-    console.log("THIS STATE", this.state.items)
-    console.log("prev state", prevState.items)
-    // if (this.state.items.constructor !== Array && this.state.items === prevState.items){
-    //   console.log("State matches Item");
-    // }
+  // componentDidUpdate(prevProps, prevState){
+  //   console.log("THIS STATE", this.state.items.constructor !== Array)
+  //   console.log("THIS STATE", this.state.items)
+  //   console.log("prev state", prevState.items)
+  //   // if (this.state.items.constructor !== Array && this.state.items === prevState.items){
+  //   //   console.log("State matches Item");
+  //   // }
   }
 
   getItem(email) {
@@ -154,7 +157,10 @@ class Profile extends Component {
             <button
               style={{ backgroundColor: "red", color: "#fefefe" }}
               onClick={() => {
-                this.deleteRow(props.original);
+                const token = window.localStorage.getItem("usertoken");
+                const decoded = jwt_decode(token);
+                const email = decoded.identity.email;
+                this.deleteRow(props.original, email);
                 // console.log("props", props.original)
                 // console.log(this.state.items);
               }}
@@ -180,7 +186,7 @@ class Profile extends Component {
                   <div className="col-sm-8 mx-auto">
                     <h1 className="text-center">Your Profile</h1>
                   </div>
-                  <Table striped border hover>
+                  <Table striped hover>
                     <tbody>
                       <tr>
                         <td>Name</td>
