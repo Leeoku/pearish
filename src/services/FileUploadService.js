@@ -1,5 +1,5 @@
 import axios from "axios";
-import Profile from "../components/Profile";
+// import Profile from "../components/Profile";
 
 
 const upload = (file, onUploadProgress, email)=>{

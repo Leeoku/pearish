@@ -40,8 +40,11 @@ mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-CORS(app)
+# CORS(app)
 # cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=[
+    "Content-Type", "Authorization", "Access-Control-Allow-Credentials"],
+    supports_credentials=True, intercept_exceptions=False)
 # connect to db and get cluster
 cluster = pymongo.MongoClient(url)
 # cluster = pymongo.MongoClient('MONGO_URI')
@@ -54,6 +57,13 @@ collection = db['users']
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def _build_cors_prelight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
 
 @app.route("/users/upload", methods=['POST'])
 def upload_file():
@@ -170,13 +180,12 @@ class UserCollectionItems(Resource):
         return f"Updated items for {user_name}"
 
     #Delete single item in user_items
-    @cross_origin()
     def delete(self, user_name):
         # item = {"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
         # item_name = item["name"]
         response = request.get_json()
         print(response)
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        # response.headers.add('Access-Control-Allow-Origin', '*')
         item_name = response["name"]
         
         lookup = collection.find_one({"user_name": user_name})
@@ -226,4 +235,4 @@ if __name__ == '__main__':
     # (single,plural,matcher) = pattern_match()
     # results = get_results(single,plural,matcher)
     # print(results)
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

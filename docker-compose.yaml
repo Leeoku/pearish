@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  react:
+    build: 
+      context: .
+      dockerfile: Dockerfile.react
+    ports:
+    - "3000:3000"
+    - "35729:35729"
+    stdin_open: true
+    volumes:
+      - .:/app
+  python:
+    build: 
+      context: .
+      dockerfile: Dockerfile.python
+      volumes:
+        - src/server:/pearish

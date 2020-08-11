@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import FileUploadService from "../services/FileUploadService";
-import Axios from "axios";
+
 const UploadForm = (props) => {
   const [selectedFile, setSelectedFile] = useState(undefined);
   const [currentFile, setCurrentFile] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
-  const [fileInfos, setFileInfos] = useState("");
+  const [setFileInfos] = useState("");
 
   const selectFile = (event) => {
     setSelectedFile(event.target.files);

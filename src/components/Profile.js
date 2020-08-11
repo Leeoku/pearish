@@ -40,7 +40,7 @@ class Profile extends Component {
 //     });
 
 //   }
-  deleteRow(name, email) {
+  deleteRow(name, user_name) {
     // console.log(name_match);
     // // this.setState({items:name_match})
     // this.setState((items) =>({items: name_match}));
@@ -60,9 +60,12 @@ class Profile extends Component {
     console.log("ARRAY", array);
     console.log("NAME", name);
     console.log(array.user_items);
-    // Why do i get a cors error if i add HTTP://
+    console.log("LIVE TEST")
+    console.log("LIVE TEST 2")
+
     axios
-      .delete("http://localhost:5000/users/" + encodeURIComponent(email.email) + "/items", name, {
+      // .delete("http://localhost:5000/users/" + "ken@gmail.com" + "/items", name, {
+        .delete("/users/" + "ken@gmail.com" + "/items", name, {
         headers: {
           'Content-Type': 'Delete request to flask',
           "Access-Control-Allow-Origin": "*",
@@ -86,12 +89,13 @@ class Profile extends Component {
   //   console.log("prev state", prevState.items)
   //   // if (this.state.items.constructor !== Array && this.state.items === prevState.items){
   //   //   console.log("State matches Item");
-  //   // }
+    // }
   }
 
   getItem(email) {
     axios
-      .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
+      // .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
+      .get("/users/" + encodeURIComponent(email.email))
       .then((response) => {
         const user_items = response.data;
         console.log(user_items);
@@ -102,7 +106,7 @@ class Profile extends Component {
         console.log("Data received");
       })
       .catch(() => {
-        console.log(console.error());
+        // console.log(console.error());
         alert("Could not get data");
       });
   }
