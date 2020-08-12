@@ -14,5 +14,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.python
-      volumes:
-        - src/server:/pearish
+    volumes:
+      -  ./src/server:/pearish
+    environment:
+      - PYTHONUNBUFFERED=1

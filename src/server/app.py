@@ -184,8 +184,6 @@ class UserCollectionItems(Resource):
         # item = {"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
         # item_name = item["name"]
         response = request.get_json()
-        print(response)
-        # response.headers.add('Access-Control-Allow-Origin', '*')
         item_name = response["name"]
         
         lookup = collection.find_one({"user_name": user_name})
@@ -224,6 +222,11 @@ class UserCollectionItems(Resource):
                 continue
         collection.update_one({"user_name":user_name}, {"$set": lookup})
         return f"{item_name} has been updated"
+
+# class UserCollectionItems(Resource):
+#     def delete(self, user_name):
+#         print("DELETE REQUEST WORKS")
+#         return("DELETE REQUEST WORKS")
 
 
 restful_api.add_resource(UserCollection, '/users/')

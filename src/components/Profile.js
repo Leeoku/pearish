@@ -59,29 +59,46 @@ class Profile extends Component {
     var array = this.state.items
     console.log("ARRAY", array);
     console.log("NAME", name);
-    console.log(array.user_items);
-    console.log("LIVE TEST")
-    console.log("LIVE TEST 2")
-
+    console.log("DELETE ROW ARRAY", array.user_items);
     axios
-      // .delete("http://localhost:5000/users/" + "ken@gmail.com" + "/items", name, {
-        .delete("/users/" + "ken@gmail.com" + "/items", name, {
-        headers: {
-          'Content-Type': 'Delete request to flask',
-          "Access-Control-Allow-Origin": "*",
-        }
-      })
-      .then((response) => {
-        const token = window.localStorage.getItem("usertoken");
-        const decoded = jwt_decode(token);
-        this.getItem({
-          email: decoded.identity.email,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Could not delete data");
-      }); 
+    .delete("/users/" + "ken@gmail.com" + "/items",
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: name
+    })
+    .then((response) => {
+      const token = window.localStorage.getItem("usertoken");
+      const decoded = jwt_decode(token);
+      this.getItem({
+        email: decoded.identity.email,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Could not delete data");
+    }); 
+    // axios
+    //   // .delete("http://localhost:5000/users/" + "ken@gmail.com" + "/items", name, {
+    //     .delete("/users/" + "ken@gmail.com" + "/items", {name: "Ken"}, {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       "Access-Control-Allow-Origin": "*",
+    //     }
+    //   })
+    //   .then((response) => {
+    //     const token = window.localStorage.getItem("usertoken");
+    //     const decoded = jwt_decode(token);
+    //     this.getItem({
+    //       email: decoded.identity.email,
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     alert("Could not delete data");
+    //   }); 
+
 
   // componentDidUpdate(prevProps, prevState){
   //   console.log("THIS STATE", this.state.items.constructor !== Array)
@@ -103,7 +120,7 @@ class Profile extends Component {
         console.log(JSON.stringify(user_items));
         this.setState(user_items);
         this.setState({items: user_items})
-        console.log("Data received");
+        console.log("Data received", this.state.user_items);
       })
       .catch(() => {
         // console.log(console.error());
