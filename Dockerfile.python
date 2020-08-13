@@ -4,6 +4,7 @@ COPY /src/server/ /pearish/
 COPY requirements.txt ./
 
 RUN pip install -r requirements.txt
+RUN python -m nltk.downloader punkt
 WORKDIR /pearish
 
 CMD ["python3", "app.py"]
