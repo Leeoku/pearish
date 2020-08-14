@@ -14,39 +14,28 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      items: [],
+      user_items: [],
     };
   }
 
   componentDidMount() {
     const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
+    // var decoded_email = Object.values(decoded.identity);
+    // console.log("DECODE EMAIL", Object.values((decoded_email)));
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
       email: decoded.identity.email,
+      // email: Object.values(decoded.identity)
     });
     this.getItem({
       email: decoded.identity.email,
+      // email: Object.values(decoded.identity),
     });
   }
  
-// deleteRow(id) {
-
-//     this.setState({
-
-//       posts: [...this.state.posts.filter(post => post.id !== id)]
-
-//     });
-
-//   }
   deleteRow(name, email) {
-    // console.log(name_match);
-    // // this.setState({items:name_match})
-    // this.setState((items) =>({items: name_match}));
-    // console.log(name_match);
-    // console.log('name', name)
-    
 //     axios
 //       .delete("http://localhost:5000/users/" + encodeURIComponent(email.email))
 //       .then((response) => {
@@ -75,6 +64,7 @@ class Profile extends Component {
       const decoded = jwt_decode(token);
       this.getItem({
         email: decoded.identity.email,
+        // email: Object.values(decoded.identity)
       });
     })
     .catch((error) => {
@@ -97,12 +87,17 @@ class Profile extends Component {
       .get("/users/" + encodeURIComponent(email.email))
       .then((response) => {
         const user_items = response.data;
+        const email_array = Object.values(email);
+        console.log("EMAIL", email);
+        console.log("EMAIL ARRAY", email_array);
         console.log(user_items);
         JSON.stringify(user_items);
-        console.log(JSON.stringify(user_items));
+        console.log("JSON STRING",JSON.stringify(user_items));
         this.setState(user_items);
-        this.setState({items: user_items})
+        // this.setState({user_items: user_items})
         console.log("Data received", this.state.user_items);
+        console.log("Data received 2", this.state.items);
+        console.log("STATE VLUES", this.state)
       })
       .catch(() => {
         // console.log(console.error());
@@ -168,10 +163,10 @@ class Profile extends Component {
               onClick={() => {
                 const token = window.localStorage.getItem("usertoken");
                 const decoded = jwt_decode(token);
+                // const email = Object.values(decoded.identity);
                 const email = decoded.identity.email;
                 this.deleteRow(props.original, email);
                 // console.log("props", props.original)
-                // console.log(this.state.items);
               }}
             >
               Delete
@@ -219,6 +214,7 @@ class Profile extends Component {
           <ReactTable
             columns={columns}
             data={this.state.user_items}
+            // data={this.state.items}
             filterable
             defaultPageSize={10}
             noDataText={"Please wait while we get your pantry"}
