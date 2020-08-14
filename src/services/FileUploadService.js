@@ -12,22 +12,19 @@ const upload = (file, onUploadProgress, email)=>{
     //     onUploadProgress,
     // });
     return axios.all([
-        axios.post("http://localhost:5000/users/upload", formData, {
+        axios.post("/users/upload", formData, {
         headers:{
             "Content-type" : "multipart/form-data",
         },
         onUploadProgress,
     }),
-        axios.post("http://localhost:5000/users/" + email + "/items",{
+        axios.post("/users/" + email + "/items",{
         headers:{
             "Content-type" : "text/html; charset=UTF-8", 
         }}),
     ])
 
 };
-// const getFiles=()=>{
-//     return axios.get("/files");
-// };
 
 export default{
     upload,

@@ -40,7 +40,7 @@ class Profile extends Component {
 //     });
 
 //   }
-  deleteRow(name, user_name) {
+  deleteRow(name, email) {
     // console.log(name_match);
     // // this.setState({items:name_match})
     // this.setState((items) =>({items: name_match}));
@@ -56,12 +56,14 @@ class Profile extends Component {
     // })
     // this.setState({items: name},() => console.log(this.state.items))
     // this.setState({items: name});
-    var array = this.state.items
-    console.log("ARRAY", array);
-    console.log("NAME", name);
-    console.log("DELETE ROW ARRAY", array.user_items);
+    // var array = this.state.items
+    // console.log("ARRAY", array);
+    // console.log("NAME", name);
+    // console.log("DELETE ROW ARRAY", array.user_items);
+    // console.log(email);
     axios
-    .delete("/users/" + "ken@gmail.com" + "/items",
+    // .delete("/users/" + "ken@gmail.com" + "/items",
+    .delete("/users/" + encodeURIComponent(email) + "/items",
     {
       headers: {
         'Content-Type': 'application/json',
@@ -79,26 +81,6 @@ class Profile extends Component {
       console.log(error);
       alert("Could not delete data");
     }); 
-    // axios
-    //   // .delete("http://localhost:5000/users/" + "ken@gmail.com" + "/items", name, {
-    //     .delete("/users/" + "ken@gmail.com" + "/items", {name: "Ken"}, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       "Access-Control-Allow-Origin": "*",
-    //     }
-    //   })
-    //   .then((response) => {
-    //     const token = window.localStorage.getItem("usertoken");
-    //     const decoded = jwt_decode(token);
-    //     this.getItem({
-    //       email: decoded.identity.email,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     alert("Could not delete data");
-    //   }); 
-
 
   // componentDidUpdate(prevProps, prevState){
   //   console.log("THIS STATE", this.state.items.constructor !== Array)
@@ -175,6 +157,12 @@ class Profile extends Component {
         Header: "Actions",
         Cell: (props) => {
           return (
+            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+            <button 
+            style={{ backgroundColor: "#008CBA", color: "#fefefe" }}
+            >
+              Edit
+            </button>
             <button
               style={{ backgroundColor: "red", color: "#fefefe" }}
               onClick={() => {
@@ -188,6 +176,7 @@ class Profile extends Component {
             >
               Delete
             </button>
+            </div>
           );
         },
         sortable: false,
@@ -231,7 +220,7 @@ class Profile extends Component {
             columns={columns}
             data={this.state.user_items}
             filterable
-            defaultPageSize={5}
+            defaultPageSize={10}
             noDataText={"Please wait while we get your pantry"}
           ></ReactTable>
         </div>
