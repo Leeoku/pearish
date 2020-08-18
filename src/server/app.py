@@ -16,7 +16,7 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from datetime import datetime
 from flask_bcrypt import Bcrypt
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token
 #from mongostuff import *, future use of helper functions
@@ -34,13 +34,17 @@ url = "mongodb+srv://{}:{}@stackedup-nr3iv.mongodb.net/StackedUp?retryWrites=tru
 app.config['MONGO_URI'] = url
 app.config['SECRET_KEY'] = 'super secret key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-CORS(app)
-
+# CORS(app)
+# cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=[
+    "Content-Type", "Authorization", "Access-Control-Allow-Credentials"],
+    supports_credentials=True, intercept_exceptions=False)
 # connect to db and get cluster
 cluster = pymongo.MongoClient(url)
 # cluster = pymongo.MongoClient('MONGO_URI')
@@ -53,6 +57,13 @@ collection = db['users']
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def _build_cors_prelight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
 
 @app.route("/users/upload", methods=['POST'])
 def upload_file():
@@ -170,8 +181,11 @@ class UserCollectionItems(Resource):
 
     #Delete single item in user_items
     def delete(self, user_name):
-        item = {"name": "oranges", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
-        item_name = item["name"]
+        # item = {"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
+        # item_name = item["name"]
+        response = request.get_json()
+        item_name = response["name"]
+        
         lookup = collection.find_one({"user_name": user_name})
         db_item = lookup.get('user_items')
 
@@ -186,8 +200,8 @@ class UserCollectionItems(Resource):
 
     #Look for a specific foodname, then update the collection object
     def put(self, user_name):
-        #sample incoming object
         item = {"name": "oranges", "category": "orangesbetterthanapples", "purchase_date": "11/21/21", "expiration_date": "12/04/21", "count": 5}
+        # item = request.get_json()
         item_name = item["name"]
         item_category = item['category']
         item_purchase_date = item["purchase_date"]
@@ -209,6 +223,11 @@ class UserCollectionItems(Resource):
         collection.update_one({"user_name":user_name}, {"$set": lookup})
         return f"{item_name} has been updated"
 
+# class UserCollectionItems(Resource):
+#     def delete(self, user_name):
+#         print("DELETE REQUEST WORKS")
+#         return("DELETE REQUEST WORKS")
+
 
 restful_api.add_resource(UserCollection, '/users/')
 # restful_api.add_resource(UserCollectionCreate,'/user/create/<string:user_name>')
@@ -219,4 +238,4 @@ if __name__ == '__main__':
     # (single,plural,matcher) = pattern_match()
     # results = get_results(single,plural,matcher)
     # print(results)
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

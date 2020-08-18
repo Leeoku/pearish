@@ -54,7 +54,6 @@ def filter_words(nlp,all_words):
     singular_string = ' '.join(text_blob_object.words.singularize())
     
     # plural_string = ' '.join(text_blob_object.words.pluralize())
-    
     return(singular_string,words_string)
     
 
@@ -94,13 +93,11 @@ def pattern_match():
 
     # Building the intial list of keywords we want to match the parsed items aganist
     patterns = [nlp(text) for text in food_groups]
-    matcher.add("Food Matcher", None, *patterns)    
-
+    matcher.add("Food Matcher", None, *patterns)
     return(text_doc_singular, text_doc_plural, matcher )
 
 def get_dates() :
     today = date.today()
-
     present_date = today.strftime("%m/%d/%y")
     today = today + timedelta(days=14)
     expiry_date = today.strftime("%m/%d/%y")
@@ -125,8 +122,8 @@ def get_results(text_doc_singular, text_doc_plural, matcher):
         # results.append((nlp.vocab.strings[match_id],text_doc_plural[start:end]))
         results.append(text_doc_plural[start:end])
 
+    #Create results with standard template for object
     results = {i: results.count(i) for i in results}
-
     results_with_dates = []
     today,expiry = get_dates()
     for k, v in results.items():   
@@ -143,9 +140,7 @@ def get_results(text_doc_singular, text_doc_plural, matcher):
 if __name__ == "__main__":
     (single,plural,matcher) = pattern_match()
     results = get_results(single,plural,matcher)
-    
     print(results)
-    print(type(results[0]))
 
 
 

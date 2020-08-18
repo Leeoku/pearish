@@ -1,12 +1,3 @@
-FROM python:3.8.3-buster
-
-WORKDIR /pearish
-
-COPY requirements.txt ./
-
-RUN pip install -r requirements.txt
-
-
 # Pull latest official node image
 FROM node:latest
 
@@ -18,6 +9,7 @@ EXPOSE 35729
 ENV PATH /app/node_modules/.bin:$PATH
 
 # Copy package files and install app dependencies
+WORKDIR /app/
 COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json
 RUN npm install
