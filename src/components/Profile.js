@@ -15,7 +15,14 @@ class Profile extends Component {
       last_name: "",
       email: "",
       // user_items: {data: []}
-      user_items: []
+      user_items: [{
+        name:"",
+        category: "",
+        expiration_date: "",
+        purchase_date: "",
+        count: "",
+
+      }]
     };
     this.renderEditable = this.renderEditable.bind(this);
   }
@@ -102,12 +109,15 @@ class Profile extends Component {
           //   realData.push(item[index])
           realData.push(user_items.user_items[item]);
         }
-
+        // const temp_data = {data: realData}
+        // console.log("TEMP",temp_data);
         // JSON.stringify(user_items);
         // console.log("JSON STRING",JSON.stringify(user_items));
         // this.setState({user_items: realData})
         // this.setState(user_items);
         this.setState({user_items: realData});
+        // this.setState({user_items: temp_data});
+        // this.setState({user_items: user_items})
 
         // const nestedData = []
         // const stack = user_items.user_items.forEach(function(entry){
@@ -119,7 +129,7 @@ class Profile extends Component {
         // this.setState({user_items: user_items})
         // const email_array = Object.values(email);
         // console.log("EMAIL ARRAY", email_array);
-        console.log("STATE VLUES", [this.state])
+        console.log("STATE VLUES", this.state.user_items)
       })
       .catch(() => {
         // console.log(console.error());
@@ -155,7 +165,8 @@ class Profile extends Component {
         }}
         dangerouslySetInnerHTML={{
           // __html: this.state.data[cellInfo.index][cellInfo.column.id]
-          __html: this.state.user_items
+          // __html: this.state.user_items
+          __html: cellInfo.value
         }}
       />
     )
