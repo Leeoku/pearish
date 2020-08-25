@@ -18,7 +18,7 @@ const upload = (file, onUploadProgress, email)=>{
         },
         onUploadProgress,
     }),
-        axios.post("/users/" + email + "/items",{
+        axios.post("/users/" + encodeURIComponent(email) + "/items",{
         headers:{
             "Content-type" : "text/html; charset=UTF-8", 
         }}),
