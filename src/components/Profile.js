@@ -14,8 +14,10 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      user_items: [],
+      // user_items: {data: []}
+      user_items: []
     };
+    this.renderEditable = this.renderEditable.bind(this);
   }
 
   componentDidMount() {
@@ -34,7 +36,7 @@ class Profile extends Component {
       // email: Object.values(decoded.identity),
     });
   }
- 
+
   deleteRow(name, email) {
 //     axios
 //       .delete("http://localhost:5000/users/" + encodeURIComponent(email.email))
@@ -82,29 +84,86 @@ class Profile extends Component {
   }
 
   getItem(email) {
+    // this.setState({"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3})
     axios
       // .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
       .get("/users/" + encodeURIComponent(email.email))
       .then((response) => {
-        const user_items = response.data;
-        const email_array = Object.values(email);
-        console.log("EMAIL", email);
-        console.log("EMAIL ARRAY", email_array);
-        console.log(user_items);
-        JSON.stringify(user_items);
-        console.log("JSON STRING",JSON.stringify(user_items));
-        this.setState(user_items);
+        const user_items = response.data
+        // this.setState(user_items)
+        // const {user_items} = response.data;
+        console.log("USER ITEMS", user_items.user_items);
+        console.log(user_items.user_items.length);
+        const realData = []
+        const entry = user_items.user_items.forEach(entry=> console.log(entry));
+        for (let item in user_items.user_items){
+          // console.log(user_items.user_items[item]);
+          // for (let index in item){
+          //   realData.push(item[index])
+          realData.push(user_items.user_items[item]);
+        }
+
+        // JSON.stringify(user_items);
+        // console.log("JSON STRING",JSON.stringify(user_items));
+        // this.setState({user_items: realData})
+        // this.setState(user_items);
+        this.setState({user_items: realData});
+
+        // const nestedData = []
+        // const stack = user_items.user_items.forEach(function(entry){
+        //   console.log(entry);
+        //   nestedData.push(entry)
+        // });
+        // console.log("STACK", stack);
+        // console.log("NESTED DATA", nestedData);
         // this.setState({user_items: user_items})
-        console.log("Data received", this.state.user_items);
-        console.log("Data received 2", this.state.items);
-        console.log("STATE VLUES", this.state)
+        // const email_array = Object.values(email);
+        // console.log("EMAIL ARRAY", email_array);
+        console.log("STATE VLUES", [this.state])
       })
       .catch(() => {
         // console.log(console.error());
         alert("Could not get data");
       });
   }
+      // getItem(email) {
+      //   axios
+      //     .get("/users/" + encodeURIComponent(email.email))
+      //     .then((response) => {
+      //       const {user_items} = response.data.user_items;
+      //       this.setState({user_items});
+      //       console.log("Data received", this.state.user_items);
+      //       console.log("STATE VLUES", this.state)
+      //     })
+      //     .catch(() => {
+      //       alert("Could not get data");
+      //     });
+      // }
+  renderEditable(cellInfo) {
+    return (
+      // console.log("PRE RENDER", this.state.user_items[0]),
+      <div
+        style={{ backgroundColor: "#fafafa" }}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => {
+          const data = [...this.state.user_items];
+          // console.log("EDIT DATA", data)
+          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+          // this.setState({ data });
+          // this.setState({ user_items: data });
+        }}
+        dangerouslySetInnerHTML={{
+          // __html: this.state.data[cellInfo.index][cellInfo.column.id]
+          __html: this.state.user_items
+        }}
+      />
+    )
+  }
+
+  // if (this.state.user_items!== []) {
   render() {
+    const {data } = this.state;
     const columns = [
       {
         Header: "Name",
@@ -112,6 +171,7 @@ class Profile extends Component {
         style: {
           textAlign: "center",
         },
+        Cell: this.renderEditable,
       },
       {
         Header: "Category",
@@ -119,6 +179,7 @@ class Profile extends Component {
         style: {
           textAlign: "center",
         },
+        Cell: this.renderEditable,
       },
       {
         Header: "Purchased",
@@ -127,6 +188,7 @@ class Profile extends Component {
           textAlign: "center",
         },
         filterable: false,
+        Cell: this.renderEditable,
       },
       {
         Header: "Expires",
@@ -135,6 +197,7 @@ class Profile extends Component {
           textAlign: "center",
         },
         filterable: false,
+        Cell: this.renderEditable,
       },
       {
         Header: "Quantity",
@@ -147,6 +210,7 @@ class Profile extends Component {
         width: 100,
         maxwidth: 100,
         minWidth: 100,
+        Cell: this.renderEditable,
       },
       {
         Header: "Actions",
@@ -179,7 +243,8 @@ class Profile extends Component {
       },
     ];
     return (
-      <div className="container">
+      // this.state.user_items !== [] &&
+      (<div className="container">
         <Accordion>
           <Card>
             <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -213,7 +278,9 @@ class Profile extends Component {
         <div>
           <ReactTable
             columns={columns}
-            data={this.state.user_items}
+            // data = {user_items}
+            // data={{"data":this.state.user_items}}
+            data = {this.state.user_items}
             // data={this.state.items}
             filterable
             defaultPageSize={10}
@@ -221,7 +288,7 @@ class Profile extends Component {
           ></ReactTable>
         </div>
         <UploadForm email={this.state.email}></UploadForm>
-      </div>
+      </div>)
     );
   }
 }
