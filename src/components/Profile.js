@@ -15,14 +15,7 @@ class Profile extends Component {
       last_name: "",
       email: "",
       // user_items: {data: []}
-      user_items: [{
-        name:"",
-        category: "",
-        expiration_date: "",
-        purchase_date: "",
-        count: "",
-
-      }]
+      user_items: []
     };
     this.renderEditable = this.renderEditable.bind(this);
   }
@@ -45,20 +38,7 @@ class Profile extends Component {
   }
 
   deleteRow(name, email) {
-//     axios
-//       .delete("http://localhost:5000/users/" + encodeURIComponent(email.email))
-//       .then((response) => {
-    //     const index = this.state.items.find((user_items) => {
-    //       return user_items.name === name;
 
-    // })
-    // this.setState({items: name},() => console.log(this.state.items))
-    // this.setState({items: name});
-    // var array = this.state.items
-    // console.log("ARRAY", array);
-    // console.log("NAME", name);
-    // console.log("DELETE ROW ARRAY", array.user_items);
-    // console.log(email);
     axios
     // .delete("/users/" + "ken@gmail.com" + "/items",
     .delete("/users/" + encodeURIComponent(email) + "/items",
@@ -79,16 +59,7 @@ class Profile extends Component {
     .catch((error) => {
       console.log(error);
       alert("Could not delete data");
-    }); 
-
-  // componentDidUpdate(prevProps, prevState){
-  //   console.log("THIS STATE", this.state.items.constructor !== Array)
-  //   console.log("THIS STATE", this.state.items)
-  //   console.log("prev state", prevState.items)
-  //   // if (this.state.items.constructor !== Array && this.state.items === prevState.items){
-  //   //   console.log("State matches Item");
-    // }
-  }
+    })}; 
 
   getItem(email) {
     // this.setState({"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3})
@@ -102,22 +73,17 @@ class Profile extends Component {
         console.log("USER ITEMS", user_items.user_items);
         console.log(user_items.user_items.length);
         const realData = []
-        const entry = user_items.user_items.forEach(entry=> console.log(entry));
         for (let item in user_items.user_items){
           // console.log(user_items.user_items[item]);
           // for (let index in item){
           //   realData.push(item[index])
           realData.push(user_items.user_items[item]);
         }
-        // const temp_data = {data: realData}
-        // console.log("TEMP",temp_data);
         // JSON.stringify(user_items);
         // console.log("JSON STRING",JSON.stringify(user_items));
         // this.setState({user_items: realData})
         // this.setState(user_items);
         this.setState({user_items: realData});
-        // this.setState({user_items: temp_data});
-        // this.setState({user_items: user_items})
 
         // const nestedData = []
         // const stack = user_items.user_items.forEach(function(entry){
@@ -132,26 +98,12 @@ class Profile extends Component {
         console.log("STATE VLUES", this.state.user_items)
       })
       .catch(() => {
-        // console.log(console.error());
         alert("Could not get data");
       });
   }
-      // getItem(email) {
-      //   axios
-      //     .get("/users/" + encodeURIComponent(email.email))
-      //     .then((response) => {
-      //       const {user_items} = response.data.user_items;
-      //       this.setState({user_items});
-      //       console.log("Data received", this.state.user_items);
-      //       console.log("STATE VLUES", this.state)
-      //     })
-      //     .catch(() => {
-      //       alert("Could not get data");
-      //     });
-      // }
+
   renderEditable(cellInfo) {
     return (
-      // console.log("PRE RENDER", this.state.user_items[0]),
       <div
         style={{ backgroundColor: "#fafafa" }}
         contentEditable
@@ -164,9 +116,7 @@ class Profile extends Component {
           // this.setState({ user_items: data });
         }}
         dangerouslySetInnerHTML={{
-          // __html: this.state.data[cellInfo.index][cellInfo.column.id]
-          // __html: this.state.user_items
-          __html: cellInfo.value
+          __html: this.state.user_items[cellInfo.index][cellInfo.column.id]
         }}
       />
     )
@@ -174,7 +124,6 @@ class Profile extends Component {
 
   // if (this.state.user_items!== []) {
   render() {
-    const {data } = this.state;
     const columns = [
       {
         Header: "Name",
