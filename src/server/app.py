@@ -238,4 +238,4 @@ if __name__ == '__main__':
     # (single,plural,matcher) = pattern_match()
     # results = get_results(single,plural,matcher)
     # print(results)
-    app.run(debug=True, host="0.0.0.0")
+    app.run(threaded = True, debug=True, host="0.0.0.0")

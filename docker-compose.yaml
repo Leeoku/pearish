@@ -18,3 +18,13 @@ services:
       -  ./src/server:/pearish
     environment:
       - PYTHONUNBUFFERED=1
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - python
+      - react
