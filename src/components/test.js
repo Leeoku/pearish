@@ -1,11 +1,7 @@
-import React, { Component } from "react";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
-import Table from "react-bootstrap/Table";
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
-import ReactTable from "react-table-6";
-import UploadForm from "./UploadForm";
+
+import { getUser, deleteUser } from '../service/user';
+import { getUserItem } from './^untitled:Untitled-1';
+import { deleteUserItem } from './^untitled:Untitled-1';
 
 class Profile extends Component {
   constructor() {
@@ -14,115 +10,52 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      // user_items: {data: []}
-      user_items: []
+      user_items: [],
+      isInEditMode: false
     };
-    this.renderEditable = this.renderEditable.bind(this);
+    this.renderEditable = this.renderEditable.bind(this); // this line needed for renderEditTable
   }
 
   componentDidMount() {
     const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
-    // var decoded_email = Object.values(decoded.identity);
-    // console.log("DECODE EMAIL", Object.values((decoded_email)));
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
       email: decoded.identity.email,
-      // email: Object.values(decoded.identity)
     });
-    this.getItem({
-      email: decoded.identity.email,
-      // email: Object.values(decoded.identity),
-    });
+    const { data: { user_items }} = await getUserItem(decoded.identity.email);
+    this.setState({ user_items });
   }
 
-  deleteRow(name, email) {
-
-    axios
-    // .delete("/users/" + "ken@gmail.com" + "/items",
-    .delete("/users/" + encodeURIComponent(email) + "/items",
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: name
-    })
-    .then((response) => {
-      const token = window.localStorage.getItem("usertoken");
-      const decoded = jwt_decode(token);
-      this.getItem({
-        email: decoded.identity.email,
-        // email: Object.values(decoded.identity)
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      alert("Could not delete data");
-    })}; 
-
-  getItem(email) {
-    // this.setState({"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3})
-    axios
-      // .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
-      .get("/users/" + encodeURIComponent(email.email))
-      .then((response) => {
-        const user_items = response.data
-        // this.setState(user_items)
-        // const {user_items} = response.data;
-        console.log("USER ITEMS", user_items.user_items);
-        console.log(user_items.user_items.length);
-        const realData = []
-        for (let item in user_items.user_items){
-          // console.log(user_items.user_items[item]);
-          // for (let index in item){
-          //   realData.push(item[index])
-          realData.push(user_items.user_items[item]);
-        }
-        // JSON.stringify(user_items);
-        // console.log("JSON STRING",JSON.stringify(user_items));
-        // this.setState({user_items: realData})
-        // this.setState(user_items);
-        this.setState({user_items: realData});
-
-        // const nestedData = []
-        // const stack = user_items.user_items.forEach(function(entry){
-        //   console.log(entry);
-        //   nestedData.push(entry)
-        // });
-        // console.log("STACK", stack);
-        // console.log("NESTED DATA", nestedData);
-        // this.setState({user_items: user_items})
-        // const email_array = Object.values(email);
-        // console.log("EMAIL ARRAY", email_array);
-        console.log("STATE VLUES", this.state.user_items)
-      })
-      .catch(() => {
-        alert("Could not get data");
-      });
-  }
-
-  renderEditable(cellInfo) {
+  renderEditable = (cellInfo) => {
     return (
       <div
         style={{ backgroundColor: "#fafafa" }}
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
-          const data = [...this.state.user_items];
-          // console.log("EDIT DATA", data)
+          const user_items = [...this.state.user_items];
           data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          // this.setState({ data });
-          // this.setState({ user_items: data });
+          this.setState({ user_items });
         }}
         dangerouslySetInnerHTML={{
           __html: this.state.user_items[cellInfo.index][cellInfo.column.id]
         }}
       />
-    )
+    );
   }
 
-  // if (this.state.user_items!== []) {
+  async deleteItem(name, email) {
+    try {
+      await deleteUserItem(email, name);
+      const user_items = this.state.user_items.filter(item => item.name === name);
+      this.setState({ user_items });
+    } catch (err) {
+      console.log('Something went wrong', err);
+    }
+  }
+
   render() {
     const columns = [
       {
@@ -131,7 +64,7 @@ class Profile extends Component {
         style: {
           textAlign: "center",
         },
-        Cell: this.renderEditable,
+        // Cell: this.renderEditable,
       },
       {
         Header: "Category",
@@ -139,7 +72,7 @@ class Profile extends Component {
         style: {
           textAlign: "center",
         },
-        Cell: this.renderEditable,
+        // Cell: this.renderEditable,
       },
       {
         Header: "Purchased",
@@ -148,7 +81,7 @@ class Profile extends Component {
           textAlign: "center",
         },
         filterable: false,
-        Cell: this.renderEditable,
+        // Cell: this.renderEditable,
       },
       {
         Header: "Expires",
@@ -157,7 +90,7 @@ class Profile extends Component {
           textAlign: "center",
         },
         filterable: false,
-        Cell: this.renderEditable,
+        // Cell: this.renderEditable,
       },
       {
         Header: "Quantity",
@@ -170,7 +103,7 @@ class Profile extends Component {
         width: 100,
         maxwidth: 100,
         minWidth: 100,
-        Cell: this.renderEditable,
+        // Cell: this.renderEditable,
       },
       {
         Header: "Actions",
@@ -187,10 +120,8 @@ class Profile extends Component {
               onClick={() => {
                 const token = window.localStorage.getItem("usertoken");
                 const decoded = jwt_decode(token);
-                // const email = Object.values(decoded.identity);
                 const email = decoded.identity.email;
-                this.deleteRow(props.original, email);
-                // console.log("props", props.original)
+                this.deleteItem(props.original, email);
               }}
             >
               Delete
@@ -203,8 +134,7 @@ class Profile extends Component {
       },
     ];
     return (
-      // this.state.user_items !== [] &&
-      (<div className="container">
+      <div className="container">
         <Accordion>
           <Card>
             <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -239,8 +169,7 @@ class Profile extends Component {
           <ReactTable
             columns={columns}
             // data = {user_items}
-            // data={{"data":this.state.user_items}}
-            data = {this.state.user_items}
+            data={this.state.user_items}
             // data={this.state.items}
             filterable
             defaultPageSize={10}
@@ -248,9 +177,10 @@ class Profile extends Component {
           ></ReactTable>
         </div>
         <UploadForm email={this.state.email}></UploadForm>
-      </div>)
+      </div>
     );
   }
 }
 
 export default Profile;
+
