@@ -14,7 +14,6 @@ class Profile extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      // user_items: {data: []}
       user_items: []
     };
     this.renderEditable = this.renderEditable.bind(this);
@@ -23,24 +22,19 @@ class Profile extends Component {
   componentDidMount() {
     const token = window.localStorage.getItem("usertoken");
     const decoded = jwt_decode(token);
-    // var decoded_email = Object.values(decoded.identity);
-    // console.log("DECODE EMAIL", Object.values((decoded_email)));
     this.setState({
       first_name: decoded.identity.first_name,
       last_name: decoded.identity.last_name,
       email: decoded.identity.email,
-      // email: Object.values(decoded.identity)
     });
     this.getItem({
       email: decoded.identity.email,
-      // email: Object.values(decoded.identity),
     });
   }
 
+  // function to delete the row and send a delete request and update the table
   deleteRow(name, email) {
-
     axios
-    // .delete("/users/" + "ken@gmail.com" + "/items",
     .delete("/users/" + encodeURIComponent(email) + "/items",
     {
       headers: {
@@ -53,7 +47,6 @@ class Profile extends Component {
       const decoded = jwt_decode(token);
       this.getItem({
         email: decoded.identity.email,
-        // email: Object.values(decoded.identity)
       });
     })
     .catch((error) => {
@@ -61,40 +54,19 @@ class Profile extends Component {
       alert("Could not delete data");
     })}; 
 
+// function send a get request for items, verify the user and update the state with user_items
   getItem(email) {
-    // this.setState({"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3})
     axios
-      // .get("http://localhost:5000/users/" + encodeURIComponent(email.email))
       .get("/users/" + encodeURIComponent(email.email))
       .then((response) => {
         const user_items = response.data
-        // this.setState(user_items)
-        // const {user_items} = response.data;
         console.log("USER ITEMS", user_items.user_items);
         console.log(user_items.user_items.length);
         const realData = []
         for (let item in user_items.user_items){
-          // console.log(user_items.user_items[item]);
-          // for (let index in item){
-          //   realData.push(item[index])
           realData.push(user_items.user_items[item]);
         }
-        // JSON.stringify(user_items);
-        // console.log("JSON STRING",JSON.stringify(user_items));
-        // this.setState({user_items: realData})
-        // this.setState(user_items);
         this.setState({user_items: realData});
-
-        // const nestedData = []
-        // const stack = user_items.user_items.forEach(function(entry){
-        //   console.log(entry);
-        //   nestedData.push(entry)
-        // });
-        // console.log("STACK", stack);
-        // console.log("NESTED DATA", nestedData);
-        // this.setState({user_items: user_items})
-        // const email_array = Object.values(email);
-        // console.log("EMAIL ARRAY", email_array);
         console.log("STATE VLUES", this.state.user_items)
       })
       .catch(() => {
@@ -102,6 +74,7 @@ class Profile extends Component {
       });
   }
 
+  // this function to be used for future inline editing
   renderEditable(cellInfo) {
     return (
       <div
@@ -110,10 +83,7 @@ class Profile extends Component {
         suppressContentEditableWarning
         onBlur={e => {
           const data = [...this.state.user_items];
-          // console.log("EDIT DATA", data)
           data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          // this.setState({ data });
-          // this.setState({ user_items: data });
         }}
         dangerouslySetInnerHTML={{
           __html: this.state.user_items[cellInfo.index][cellInfo.column.id]
@@ -122,7 +92,6 @@ class Profile extends Component {
     )
   }
 
-  // if (this.state.user_items!== []) {
   render() {
     const columns = [
       {
@@ -177,20 +146,19 @@ class Profile extends Component {
         Cell: (props) => {
           return (
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
-            <button 
+              {/* FUTURE EDIT BUTTON */}
+            {/* <button 
             style={{ backgroundColor: "#008CBA", color: "#fefefe" }}
             >
               Edit
-            </button>
+            </button> */}
             <button
               style={{ backgroundColor: "red", color: "#fefefe" }}
               onClick={() => {
                 const token = window.localStorage.getItem("usertoken");
                 const decoded = jwt_decode(token);
-                // const email = Object.values(decoded.identity);
                 const email = decoded.identity.email;
                 this.deleteRow(props.original, email);
-                // console.log("props", props.original)
               }}
             >
               Delete
@@ -238,10 +206,7 @@ class Profile extends Component {
         <div>
           <ReactTable
             columns={columns}
-            // data = {user_items}
-            // data={{"data":this.state.user_items}}
             data = {this.state.user_items}
-            // data={this.state.items}
             filterable
             defaultPageSize={10}
             noDataText={"Please wait while we get your pantry"}

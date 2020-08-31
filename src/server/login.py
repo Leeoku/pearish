@@ -23,7 +23,7 @@ jwt = JWTManager(app)
 
 CORS(app)
 
-
+#Route to register and create a user object
 @app.route('/users/register', methods=["POST"])
 def register():
     users = mongo.db.users
@@ -50,7 +50,7 @@ def register():
 
     return jsonify({'result': result})
 
-
+#Route to login and create a user object, verify the JWT
 @app.route('/users/login', methods=['POST'])
 def login():
     users = mongo.db.users

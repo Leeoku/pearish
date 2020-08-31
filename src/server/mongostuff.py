@@ -49,10 +49,6 @@ class Users:
     def get_all(self):
         return dbs['users'].find().to_list(length=100000)
 
-# UserCollectionName
-#GET
-#user_yeet = Users().by_id(user_name).get()
-#Delete
 
 
 
