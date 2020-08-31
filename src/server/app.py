@@ -73,11 +73,6 @@ def upload_file():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return "done"
 
-
-# @app.route("/files", methods=['POST'])
-# def files():
-#     return "FILES HERE"
-
 #Register Function
 @app.route('/users/register', methods=["POST"])
 def register():
@@ -147,11 +142,6 @@ class UserCollectionName(Resource):
         collection.delete_one({"user_name": user_name})
         return f"{user_name} deleted"
 
-# Response to get and delete items
-# Sample Object
-# [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1},
-# {"name": "oranges", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
-
 #Made function for collection.update_one
 def db_update(id, data):
     collection.update_one(id, {"$set": data})
@@ -166,8 +156,6 @@ class UserCollectionItems(Resource):
 
     # Add items to a user_items for specific user_name
     def post(self, user_name):
-        # results = [{"name": "carrot", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 1},
-        # {"name": "beer", "category": "placholder", "purchase_date": "07/18/20", "expiration_date": "08/01/20", "count": 3}]
         user = collection.find_one({"user_name": user_name})
         (single, plural, matcher) = pattern_match()
         results = get_results(single, plural, matcher)
@@ -181,8 +169,6 @@ class UserCollectionItems(Resource):
 
     #Delete single item in user_items
     def delete(self, user_name):
-        # item = {"name": "salami", "category": "placeholder", "purchase_date": "07/21/20", "expiration_date": "08/04/20", "count": 3}
-        # item_name = item["name"]
         response = request.get_json()
         item_name = response["name"]
         
@@ -201,7 +187,6 @@ class UserCollectionItems(Resource):
     #Look for a specific foodname, then update the collection object
     def put(self, user_name):
         item = {"name": "oranges", "category": "orangesbetterthanapples", "purchase_date": "11/21/21", "expiration_date": "12/04/21", "count": 5}
-        # item = request.get_json()
         item_name = item["name"]
         item_category = item['category']
         item_purchase_date = item["purchase_date"]
@@ -223,19 +208,9 @@ class UserCollectionItems(Resource):
         collection.update_one({"user_name":user_name}, {"$set": lookup})
         return f"{item_name} has been updated"
 
-# class UserCollectionItems(Resource):
-#     def delete(self, user_name):
-#         print("DELETE REQUEST WORKS")
-#         return("DELETE REQUEST WORKS")
-
-
 restful_api.add_resource(UserCollection, '/users/')
-# restful_api.add_resource(UserCollectionCreate,'/user/create/<string:user_name>')
 restful_api.add_resource(UserCollectionName, '/users/<string:user_name>')
 restful_api.add_resource(UserCollectionItems, '/users/<string:user_name>/items')
 
 if __name__ == '__main__':
-    # (single,plural,matcher) = pattern_match()
-    # results = get_results(single,plural,matcher)
-    # print(results)
     app.run(threaded = True, debug=True, host="0.0.0.0")
