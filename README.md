@@ -4,6 +4,8 @@
 ## Project Overview
 A digital pantry app to scan receipts and extract food items to a personal database. Users can easily check what food was recently purchased and when the food is expected to expire. This helps monitor grocery purchasing habits and reduce the chance of spoiled food.
 
+* <a href = 'https://www.loom.com/share/833fff290baa4e8e89e572ccd4a6e4c6'>Demo</a> 
+
 
 ### Current Status (v0)
 This project is still in the development phase and growing to address the different complexities. Here are some features that are coming soon!
@@ -11,12 +13,29 @@ This project is still in the development phase and growing to address the differ
 * Upgrading profile table using React hooks with in-line editing
 
 ## Technologies
-* React.js with React-Table
-* Python with Flask Back for REST API
+* React.js with:
+    * React-Table
+    * Axios HTTP client
+    * JWT-Decode to decode JWT tokens
+* Python with:
+    * Flask for REST APIs 
+    * pandas to manipulate the database
+    * bcrypt to hash passwords
+    * OCR.space Image Recognition API
+    * Spacy Natural Language Processing
 * NGINX as a reverse proxy to handle requests
-* OCR.space Image Recognition API
-* Spacy Natural Language Processing
 * MongoDB
+* Docker to containerize our services
+
+## Architecture
+
+Below shows the different Docker containers set up for this project.
+
+![Alt text](/architecture.png "Title")
+
+
+## Setup
+* `docker-compose up --build` to build the container environments. Afterwards, `docker-compose up` will suffice
 
 ## Contributors
 Omar, Tyler, Maaz, Avi, Ryan, Andrew and mentor Kevin
