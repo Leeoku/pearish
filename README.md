@@ -4,7 +4,7 @@
 ## Project Overview
 A digital pantry app to scan receipts and extract food items to a personal database. Users can easily check what food was recently purchased and when the food is expected to expire. This helps monitor grocery purchasing habits and reduce the chance of spoiled food.
 
-* <a href = ''>Demo</a> 
+* <a href = 'https://www.loom.com/share/833fff290baa4e8e89e572ccd4a6e4c6'>Demo</a> 
 
 
 ### Current Status (v0)
@@ -25,6 +25,7 @@ This project is still in the development phase and growing to address the differ
     * Spacy Natural Language Processing
 * NGINX as a reverse proxy to handle requests
 * MongoDB
+* Docker to containerize our services
 
 ## Architecture
 
