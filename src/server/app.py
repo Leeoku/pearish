@@ -212,5 +212,6 @@ restful_api.add_resource(UserCollection, '/users/')
 restful_api.add_resource(UserCollectionName, '/users/<string:user_name>')
 restful_api.add_resource(UserCollectionItems, '/users/<string:user_name>/items')
 
-if __name__ == '__main__':
-    app.run(threaded = True, debug=True, host="0.0.0.0")
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=8000)
+#     # app.run(threaded = True, debug=True, host="0.0.0.0")
