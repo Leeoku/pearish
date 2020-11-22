@@ -21,11 +21,13 @@ const UploadForm = (props) => {
       .then((files) => {
         setFileInfos(files.data);
         setMessage("Filed Uploaded!");
+        window.location.reload();
       })
       .catch(() => {
         setProgress(0);
         setMessage("could not upload the file!");
         setCurrentFile(undefined);
+        window.location.reload();
       });
     setSelectedFile(undefined);
   };
