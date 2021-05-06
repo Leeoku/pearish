@@ -14,7 +14,7 @@ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.0
 filelock==3.0.12
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-JWT-Extended==3.24.1
 Flask-PyMongo==2.3.0
 Flask-RESTful==0.3.8
